@@ -13,8 +13,11 @@ struct ContentView: View {
             HeaderView()
             FiltersView()
             RestaurantSearch()
+            MapView()
+                .padding(.vertical, 5)
             Spacer()
         }
+        .padding(.horizontal, 10)
     }
 }
 
