@@ -15,7 +15,7 @@ struct ContentView: View {
             RestaurantSearch()
             MapView()
                 .padding(.vertical, 5)
-            Spacer()
+            RestaurantList(restaurants: mockRestaurantList)
         }
         .padding(.horizontal, 10)
     }
