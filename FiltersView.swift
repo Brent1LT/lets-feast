@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FiltersView: View {
-    @State private var selectedDistance: Double = 5.0
+    @State private var selectedDistance: Double = 10.0
     @State private var showFilters: Bool = false
     
     var body: some View {
@@ -45,11 +45,6 @@ struct FiltersView: View {
             }
         }
         .padding(10)
-//        .background(
-//            RoundedRectangle(cornerRadius: 10)
-//                .fill(Color.white)
-//                .shadow(color: Color.black.opacity(0.2), radius: 3, x: 10, y: 5)
-//        )
     }
 }
 

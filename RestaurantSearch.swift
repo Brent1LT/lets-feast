@@ -37,7 +37,7 @@ struct RestaurantSearch: View {
         .cornerRadius(10)
         .background(
             RoundedRectangle(cornerRadius: 10)
-                .fill(Color.white)
+                .fill(Color(.systemBackground))
                 .shadow(color: Color.black.opacity(0.2), radius: 3, x: 0, y: 5)
         )
         

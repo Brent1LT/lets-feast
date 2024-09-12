@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var restaurantList: [Restaurant] = []
+    
     var body: some View {
         VStack {
             HeaderView()
@@ -15,7 +17,7 @@ struct ContentView: View {
             RestaurantSearch()
             MapView()
                 .padding(.vertical, 5)
-            RestaurantList(restaurants: mockRestaurantList)
+            RestaurantList(restaurants: restaurantList)
         }
         .padding(.horizontal, 10)
     }

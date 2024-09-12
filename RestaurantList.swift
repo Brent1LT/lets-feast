@@ -13,21 +13,41 @@ struct RestaurantList: View {
     var body: some View {
         ScrollView {
             ForEach(restaurants) { restaurant in
-                HStack {
+                HStack(alignment: .top) {
                     AsyncImage(url: URL(string: restaurant.thumbnail), content: { image in
-                            image
-                            .resizable(capInsets: EdgeInsets(top: 0.0, leading: 0.0, bottom: 0.0, trailing: 0.0))
-                                .aspectRatio(contentMode: .fit)
-                                .clipShape(RoundedRectangle(cornerRadius: 15, style: .continuous))
+                        image
+                            .resizable()
+                            .frame(height: 150)
+                            .aspectRatio(contentMode: .fit)
+                            .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
                         }, placeholder: {
                             ProgressView()
                         }
                     )
-                    Text(restaurant.name)
+                    .padding(.trailing, 10)
+                    
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text(restaurant.name)
+                            .font(.headline)
+                            
+                        
+                        Text("restaurant address")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                        
+                        Text("Rating: \(4.5, specifier: "%.1f")") // Display rating
+                            .font(.caption)
+                            .foregroundColor(.secondary)
+                    }
+                    .padding(.vertical, 8)
                 }
+                .padding(.trailing, 10.0)
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(Color(.systemBackground))
+                )
             }
         }
-        .padding()
     }
 }
 
