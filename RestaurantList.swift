@@ -24,7 +24,7 @@ struct RestaurantList: View {
                 ScrollView {
                     ForEach(restaurants) { restaurant in
                         HStack(alignment: .top) {
-                            AsyncImage(url: URL(string: restaurant.thumbnail), content: { image in
+                            AsyncImage(url: URL(string: restaurant.thumbnailURL ?? ""), content: { image in
                                 image
                                     .resizable()
                                     .frame(height: 150)
@@ -41,11 +41,11 @@ struct RestaurantList: View {
                                     .font(.headline)
                                 
                                 
-                                Text("restaurant address")
+                                Text(restaurant.vicinity)
                                     .font(.subheadline)
                                     .foregroundColor(.secondary)
                                 
-                                Text("Rating: \(4.5, specifier: "%.1f")") // Display rating
+                                Text(restaurant.rating != nil ? "Rating: \(restaurant.rating!, specifier: "%.1f")" : "Rating: Unknown")
                                     .font(.caption)
                                     .foregroundColor(.secondary)
                             }

@@ -34,7 +34,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
             }
         }
     }
-    
+
     // Handle location update errors
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error getting location: \(error.localizedDescription)")
