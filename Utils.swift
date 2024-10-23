@@ -29,8 +29,6 @@ func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double,
         print("Invalid URL")
         return
     }
-    print("URL: \(url)")
-    print("Submitting Restaurant API Request...")
     URLSession.shared.dataTask(with: url) { data, response, error in
         if let error = error {
             print("Network error: \(error.localizedDescription)")

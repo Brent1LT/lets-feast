@@ -13,7 +13,7 @@ struct Restaurant: Decodable, Identifiable {
     var photos: [Photo] = []
     var thumbnailURL: String? {
         guard let photoReference = photos.first?.photo_reference else { return nil }
-        return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=\(photoReference)&key=\(APIKeys.googleAPIKey)"
+        return "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&maxheight=400&photoreference=\(photoReference)&key=\(APIKeys.googleAPIKey)"
     }
     var rating: Double?
     let geometry: Geometry

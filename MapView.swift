@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct MapView: View {
-    @StateObject private var locationManager = LocationManager() // Location Manager to track user’s location
+    @ObservedObject var locationManager: LocationManager
     @State private var cameraPosition: MapCameraPosition = .automatic // Use automatic camera position initially
     var width: CGFloat? // Width passed from parent
     var height: CGFloat? // Height passed from parent
@@ -37,12 +37,10 @@ struct MapView: View {
                     .frame(width: width, height: height)
             }
         }
-        .onAppear {
-            locationManager.requestLocation() // Request location when the view appears
-        }
     }
 }
 
+private var locationManager = MockLocationManager()
 #Preview {
-    MapView(width: 300, height: 400)
+    MapView(locationManager: locationManager, width: 300, height: 400)
 }

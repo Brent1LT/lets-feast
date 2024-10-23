@@ -29,9 +29,12 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     // CLLocationManagerDelegate method to update the user's location
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
+//            print("Location updated: \(location.coordinate.latitude), \(location.coordinate.longitude)")
             DispatchQueue.main.async {
                 self.userLocation = location // Update the user location
             }
+        } else {
+            print("No locations available")
         }
     }
 

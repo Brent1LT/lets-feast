@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct FeastApp: App {
+    @StateObject private var locationManager = LocationManager() // Location Manager to track user’s location
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(locationManager: locationManager)
         }
     }
 }

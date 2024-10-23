@@ -22,40 +22,51 @@ struct RestaurantList: View {
                 .padding()
             } else {
                 ScrollView {
-                    ForEach(restaurants) { restaurant in
-                        HStack(alignment: .top) {
-                            AsyncImage(url: URL(string: restaurant.thumbnailURL ?? ""), content: { image in
-                                image
-                                    .resizable()
-                                    .frame(height: 150)
-                                    .aspectRatio(contentMode: .fit)
-                                    .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
-                            }, placeholder: {
-                                ProgressView()
+                    VStack(alignment: .leading) {
+                        ForEach(restaurants) { restaurant in
+                            HStack(alignment: .top) {
+                                AsyncImage(url: URL(string: restaurant.thumbnailURL ?? ""), content: { image in
+                                    image
+                                        .resizable()
+                                        .frame(width: 200, height: 150)
+                                        .scaledToFit()
+                                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                }, placeholder: {
+                                    ProgressView()
+                                        .frame(width: 200, height: 150)
+                                        .background(Color(.systemGray6))
+                                        .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+                                }
+                                )
+                                .padding(.trailing, 10)
+                                
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text(restaurant.name)
+                                        .font(.headline)
+                                        .lineLimit(2)
+                                        .truncationMode(.tail)
+                                    
+                                    
+                                    Text(restaurant.vicinity)
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                        .lineLimit(2)
+                                        .truncationMode(.tail)
+                                    
+                                    Text(restaurant.rating != nil ? "Rating: \(restaurant.rating!, specifier: "%.1f")" : "Rating: Unknown")
+                                        .font(.caption)
+                                        .foregroundColor(.secondary)
+                                        .lineLimit(1)
+                                        .truncationMode(.tail)
+                                }
+                                .padding(.vertical, 8)
                             }
+                            .padding(.trailing, 10.0)
+                            .background(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(Color(.systemBackground))
                             )
-                            .padding(.trailing, 10)
-                            
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text(restaurant.name)
-                                    .font(.headline)
-                                
-                                
-                                Text(restaurant.vicinity)
-                                    .font(.subheadline)
-                                    .foregroundColor(.secondary)
-                                
-                                Text(restaurant.rating != nil ? "Rating: \(restaurant.rating!, specifier: "%.1f")" : "Rating: Unknown")
-                                    .font(.caption)
-                                    .foregroundColor(.secondary)
-                            }
-                            .padding(.vertical, 8)
                         }
-                        .padding(.trailing, 10.0)
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color(.systemBackground))
-                        )
                     }
                 }
             }
