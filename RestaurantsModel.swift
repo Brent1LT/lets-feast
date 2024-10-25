@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct Restaurant: Decodable, Identifiable {
+struct Restaurant: Decodable, Equatable, Identifiable {
+    static func == (lhs: Restaurant, rhs: Restaurant) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
     var id: String = ""
     var name: String = ""
     var photos: [Photo] = []

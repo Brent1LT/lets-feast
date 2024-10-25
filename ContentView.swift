@@ -10,27 +10,27 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var locationManager: LocationManager
     @State private var restaurantList: [Restaurant] = []
+    @State private var radius: Double = 20000
     
     
     func getNearbyRestaurants() {
         print("Fetching Restaurants...")
-        guard var lat = locationManager.userLocation?.coordinate.latitude,
+//        print("\(locationManager.userLocation)")
+        guard let lat = locationManager.userLocation?.coordinate.latitude,
               let long = locationManager.userLocation?.coordinate.longitude
         else {
             print("User location is not available. Cannot fetch nearby restaurants.")
             return
         }
         
-        var location: Location = Location(lng: long, lat: lat)
-        print(location)
-        fetchNearbyRestaurants(keyword: "fastfood", location: location, radius: 1500, maxPrice: 0, minPrice: 0, openNow: true) { result in
+        let location: Location = Location(lng: long, lat: lat)
+        fetchNearbyRestaurants(keyword: "fancy food", location: location, radius: 1500, maxPrice: 0, minPrice: 0, openNow: true) { result in
             switch result {
             case .success(let restaurants):
 //                for restaurant in restaurants {
 //                    print("Restaurant: \(restaurant.name), located at \(restaurant.geometry.location.lat)")
 //                }
                 restaurantList = restaurants
-                
             case .failure(let error):
                 print("Error fetching nearby restaurants: \(error.localizedDescription)")
                 
@@ -43,7 +43,7 @@ struct ContentView: View {
             HeaderView()
             FiltersView()
             RestaurantSearch()
-            MapView(locationManager: locationManager)
+            MapView(locationManager: locationManager, restaurantList: $restaurantList, radius: $radius)
                 .padding(.vertical, 5)
             RestaurantList(restaurants: $restaurantList)
         }
@@ -59,7 +59,6 @@ struct ContentView: View {
     }
 }
 
-private var locationManager = MockLocationManager()
 #Preview {
-    ContentView(locationManager: locationManager)
+    ContentView(locationManager: MockLocationManager())
 }
