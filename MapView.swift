@@ -12,6 +12,7 @@ struct MapView: View {
     @ObservedObject var locationManager: LocationManager
     @State private var cameraPosition: MapCameraPosition = .automatic
     @State private var selectedTag: String?
+    @State private var route: MKRoute?
     
     var width: CGFloat? // Width passed from parent
     var height: CGFloat? // Height passed from parent
@@ -34,9 +35,19 @@ struct MapView: View {
                             latitude: restaurant.geometry.location.lat,
                             longitude: restaurant.geometry.location.lng
                         )
+                        let tag = "\(restaurantLocation.latitude) \(restaurantLocation.longitude)"
+                        let display = (route != nil && selectedTag == tag) ?
+                            "\(restaurant.name) (\(Int(route!.expectedTravelTime / 60)) mins)" :
+                            restaurant.name
                         
-                        Marker(restaurant.name, systemImage: "fork.knife.circle.fill", coordinate: restaurantLocation)
-                            .tag(restaurant.id)
+                        Marker(display, systemImage: "fork.knife.circle.fill", coordinate: restaurantLocation)
+                            .tag(tag)
+
+                    }
+                    
+                    if let route {
+                        MapPolyline(route)
+                            .stroke(.blue, lineWidth: 5)
                     }
                 }
                 .onAppear {
@@ -61,6 +72,14 @@ struct MapView: View {
                         )
                     }
                 }
+                .onChange(of: selectedTag) {
+                    getDirections()
+                }
+                .mapControls {
+                    MapUserLocationButton()
+                    MapCompass()
+                    MapScaleView()
+                }
                 .frame(width: width, height: height)
                 .cornerRadius(10)
                 .background(
@@ -75,6 +94,27 @@ struct MapView: View {
                     .frame(width: width, height: height)
             }
         }
+    }
+    
+    func getDirections() {
+        route = nil
+        guard let selectedTag else { return }
+        guard let userLocation = locationManager.userLocation else { return }
+        
+        let request = MKDirections.Request()
+        let userCoord = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
+        
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: userCoord))
+        let destination = selectedTag.split(separator: " ")
+        let destinationCoord = CLLocationCoordinate2D(latitude: (destination[0] as NSString).doubleValue, longitude: (destination[1] as NSString).doubleValue)
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationCoord))
+        
+        Task {
+            let directions = MKDirections(request: request)
+            let response = try? await directions.calculate()
+            route = response?.routes.first
+        }
+
     }
 }
 
