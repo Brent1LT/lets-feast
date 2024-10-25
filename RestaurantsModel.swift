@@ -22,9 +22,11 @@ struct Restaurant: Decodable, Equatable, Identifiable {
     var rating: Double?
     let geometry: Geometry
     var vicinity: String = ""
+    let priceLevel: Int
     
     enum CodingKeys: String, CodingKey {
         case id = "place_id" // Map `place_id` to `id`
+        case priceLevel = "price_level"
         case name
         case photos
         case rating

@@ -27,9 +27,6 @@ struct ContentView: View {
         fetchNearbyRestaurants(keyword: "fancy food", location: location, radius: 1500, maxPrice: 0, minPrice: 0, openNow: true) { result in
             switch result {
             case .success(let restaurants):
-//                for restaurant in restaurants {
-//                    print("Restaurant: \(restaurant.name), located at \(restaurant.geometry.location.lat)")
-//                }
                 restaurantList = restaurants
             case .failure(let error):
                 print("Error fetching nearby restaurants: \(error.localizedDescription)")

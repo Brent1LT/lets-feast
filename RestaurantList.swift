@@ -58,6 +58,21 @@ struct RestaurantList: View {
                                         .foregroundColor(.secondary)
                                         .lineLimit(1)
                                         .truncationMode(.tail)
+                                    
+                                    Spacer()
+                                    
+                                    Text("Price")
+                                        .font(.subheadline)
+                                    
+                                    HStack{
+                                        HStack {
+                                            ForEach(1...restaurant.priceLevel, id: \.self) { number in
+                                                Image(systemName: "dollarsign.circle")
+                                                    .foregroundColor(.green)
+                                                    .font(.caption)
+                                            }
+                                        }
+                                    }
                                 }
                                 .padding(.vertical, 8)
                             }
