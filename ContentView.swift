@@ -10,7 +10,10 @@ import SwiftUI
 struct ContentView: View {
     @ObservedObject var locationManager: LocationManager
     @State private var restaurantList: [Restaurant] = []
-    @State private var radius: Double = 20000
+    @State private var radius: Double = 5000
+    @State private var minPrice: Int = 0
+    @State private var maxPrice: Int = 4
+    @State private var keyword: String = ""
     
     
     func getNearbyRestaurants() {
@@ -24,7 +27,7 @@ struct ContentView: View {
         }
         
         let location: Location = Location(lng: long, lat: lat)
-        fetchNearbyRestaurants(keyword: "fancy food", location: location, radius: 1500, maxPrice: 0, minPrice: 0, openNow: true) { result in
+        fetchNearbyRestaurants(keyword: "food", location: location, radius: radius, minPrice: minPrice, maxPrice: maxPrice, openNow: true) { result in
             switch result {
             case .success(let restaurants):
                 restaurantList = restaurants
@@ -38,8 +41,8 @@ struct ContentView: View {
     var body: some View {
         VStack {
             HeaderView()
-            FiltersView()
-            RestaurantSearch()
+            FiltersView(radius: $radius, minPrice: $minPrice, maxPrice: $maxPrice)
+            RestaurantSearch(searchText: $keyword)
             MapView(locationManager: locationManager, restaurantList: $restaurantList, radius: $radius)
                 .padding(.vertical, 5)
             RestaurantList(restaurants: $restaurantList)

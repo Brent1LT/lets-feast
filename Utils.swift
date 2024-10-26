@@ -13,12 +13,14 @@ struct PlacesResponse: Decodable {
     let status: String
 }
 
-func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double, maxPrice: Double, minPrice: Double, openNow: Bool, completion: @escaping (Result<[Restaurant], Error>) -> Void) {
+func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double, minPrice: Int, maxPrice: Int, openNow: Bool, completion: @escaping (Result<[Restaurant], Error>) -> Void) {
     let baseUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
     
     var components = URLComponents(string: baseUrl)
     components?.queryItems = [
         URLQueryItem(name: "keyword", value: keyword),
+        URLQueryItem(name: "maxprice", value: "\(maxPrice)"),
+        URLQueryItem(name: "minprice", value: "\(minPrice)"),
         URLQueryItem(name: "radius", value: "\(radius)"),
         URLQueryItem(name: "location", value: "\(location.lat),\(location.lng)"),
         URLQueryItem(name: "type", value: "restaurant"),

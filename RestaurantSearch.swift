@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct RestaurantSearch: View {
-    @State private var searchText = ""
-    let restaurants = ["Italian Bistro", "Sushi Palace", "Burger Town", "Pasta House", "Taco Fiesta", "Pizza Place"]
-    
-    var filteredRestaurants: [String] {
-        if searchText.isEmpty {
-            return restaurants
-        } else {
-            return restaurants.filter { $0.localizedCaseInsensitiveContains(searchText) }
-        }
-    }
+    @Binding var searchText: String
+//    let restaurants = ["Italian Bistro", "Sushi Palace", "Burger Town", "Pasta House", "Taco Fiesta", "Pizza Place"]
+//    
+//    var filteredRestaurants: [String] {
+//        if searchText.isEmpty {
+//            return restaurants
+//        } else {
+//            return restaurants.filter { $0.localizedCaseInsensitiveContains(searchText) }
+//        }
+//    }
     
     var body: some View {
         NavigationView {
@@ -45,5 +45,5 @@ struct RestaurantSearch: View {
 }
 
 #Preview {
-    RestaurantSearch()
+    RestaurantSearch(searchText: .constant(""))
 }

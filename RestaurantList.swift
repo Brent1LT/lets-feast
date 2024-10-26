@@ -50,23 +50,29 @@ struct RestaurantList: View {
                                     Text(restaurant.vicinity)
                                         .font(.subheadline)
                                         .foregroundColor(.secondary)
-                                        .lineLimit(2)
-                                        .truncationMode(.tail)
-                                    
-                                    Text(restaurant.rating != nil ? "Rating: \(restaurant.rating!, specifier: "%.1f")" : "Rating: Unknown")
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
                                         .lineLimit(1)
                                         .truncationMode(.tail)
                                     
-                                    Spacer()
-                                    
-                                    Text("Price")
-                                        .font(.subheadline)
-                                    
-                                    HStack{
+                                    HStack(alignment: .bottom, spacing: 3.0) {
+                                        Text(restaurant.rating != nil ? "Rating: \(restaurant.rating!, specifier: "%.1f")" : "Rating: Unknown")
+                                            .font(.subheadline)
+                                            .foregroundColor(.accentColor)
+                                            .lineLimit(1)
+                                        .truncationMode(.tail)
+                                        
+                                        if restaurant.rating != nil {
+                                            Image(systemName: "star.fill")
+                                                .font(.subheadline)
+                                                .foregroundColor(.yellow)
+                                        }
+                                    }
+                                                                                                            
+                                    if restaurant.priceLevel != nil {
+                                        Spacer()
+                                        Text("Price")
+                                            .font(.subheadline)
                                         HStack {
-                                            ForEach(1...restaurant.priceLevel, id: \.self) { number in
+                                            ForEach(1...restaurant.priceLevel!, id: \.self) { number in
                                                 Image(systemName: "dollarsign.circle")
                                                     .foregroundColor(.green)
                                                     .font(.caption)

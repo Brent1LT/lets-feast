@@ -53,7 +53,7 @@ struct MapView: View {
                 .onAppear {
                     if let userLocation = locationManager.userLocation {
                         cameraPosition = .camera(
-                            MapCamera(centerCoordinate: userLocation.coordinate, distance: radius)
+                            MapCamera(centerCoordinate: userLocation.coordinate, distance: radius * 5)
                         )
                     }
                 }
@@ -61,14 +61,14 @@ struct MapView: View {
                     if locationManager.userLocation != nil {
                         // Update camera position when the user location changes
                         cameraPosition = .camera(
-                            MapCamera(centerCoordinate: locationManager.userLocation!.coordinate, distance: radius)
+                            MapCamera(centerCoordinate: locationManager.userLocation!.coordinate, distance: radius * 5)
                         )
                     }
                 }
                 .onChange(of: restaurantList) {
                     if locationManager.userLocation != nil {
                         cameraPosition = .camera(
-                            MapCamera(centerCoordinate: locationManager.userLocation!.coordinate, distance: radius)
+                            MapCamera(centerCoordinate: locationManager.userLocation!.coordinate, distance: radius * 5)
                         )
                     }
                 }
