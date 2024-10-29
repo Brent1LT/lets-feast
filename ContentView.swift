@@ -19,6 +19,7 @@ struct ContentView: View {
     func getNearbyRestaurants() {
         print("Fetching Restaurants...")
 //        print("\(locationManager.userLocation)")
+        print("Searching with keyword: \(keyword)")
         guard let lat = locationManager.userLocation?.coordinate.latitude,
               let long = locationManager.userLocation?.coordinate.longitude
         else {
@@ -27,7 +28,7 @@ struct ContentView: View {
         }
         
         let location: Location = Location(lng: long, lat: lat)
-        fetchNearbyRestaurants(keyword: "food", location: location, radius: radius, minPrice: minPrice, maxPrice: maxPrice, openNow: true) { result in
+        fetchNearbyRestaurants(keyword: keyword, location: location, radius: radius, minPrice: minPrice, maxPrice: maxPrice, openNow: true) { result in
             switch result {
             case .success(let restaurants):
                 restaurantList = restaurants
@@ -42,7 +43,7 @@ struct ContentView: View {
         VStack {
             HeaderView()
             FiltersView(radius: $radius, minPrice: $minPrice, maxPrice: $maxPrice)
-            RestaurantSearch(searchText: $keyword)
+            RestaurantSearch(searchText: $keyword, submitRequest: getNearbyRestaurants)
             MapView(locationManager: locationManager, restaurantList: $restaurantList, radius: $radius)
                 .padding(.vertical, 5)
             RestaurantList(restaurants: $restaurantList)
