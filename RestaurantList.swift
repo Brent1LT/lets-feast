@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct RestaurantList: View {
     @Binding var restaurants: [Restaurant]
@@ -66,12 +67,27 @@ struct RestaurantList: View {
                                                 .foregroundColor(.yellow)
                                         }
                                     }
-                                                                                                            
+
+                                    Button {
+                                        let lat = restaurant.geometry.location.lat
+                                        let long = restaurant.geometry.location.lng
+                                        
+                                        let coord = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                                        let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coord))
+                                        mapItem.name = restaurant.name
+                                        print("Opening in Maps directions to \(restaurant.name)")
+                                        mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+                                    } label: {
+                                        Text("Open in Apple Maps")
+                                            .font(.caption)
+                                    }
+                                    .padding(.top, 5)
+                                    
                                     if restaurant.priceLevel != nil {
                                         Spacer()
                                         Text("Price")
                                             .font(.subheadline)
-                                        HStack {
+                                        HStack(spacing: 3) {
                                             ForEach(1...restaurant.priceLevel!, id: \.self) { number in
                                                 Image(systemName: "dollarsign.circle")
                                                     .foregroundColor(.green)

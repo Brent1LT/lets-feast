@@ -11,9 +11,10 @@ import Foundation
 struct PlacesResponse: Decodable {
     let results: [Restaurant]
     let status: String
+    let next_page_token: String?
 }
 
-func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double, minPrice: Int, maxPrice: Int, openNow: Bool, completion: @escaping (Result<[Restaurant], Error>) -> Void) {
+func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double, minPrice: Int, maxPrice: Int, openNow: Bool, completion: @escaping (Result<PlacesResponse, Error>) -> Void) {
     let baseUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
     
     var components = URLComponents(string: baseUrl)
@@ -57,7 +58,7 @@ func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double,
             }
             
             // If everything is fine, return the results
-            completion(.success(responseJSON.results))
+            completion(.success(responseJSON))
         } catch {
             print("JSON decoding error: \(error)")
             completion(.failure(error))

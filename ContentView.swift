@@ -14,6 +14,7 @@ struct ContentView: View {
     @State private var minPrice: Int = 0
     @State private var maxPrice: Int = 4
     @State private var keyword: String = ""
+    @State private var nextPageToken: String? = nil
     
     
     func getNearbyRestaurants() {
@@ -30,7 +31,9 @@ struct ContentView: View {
         let location: Location = Location(lng: long, lat: lat)
         fetchNearbyRestaurants(keyword: keyword, location: location, radius: radius, minPrice: minPrice, maxPrice: maxPrice, openNow: true) { result in
             switch result {
-            case .success(let restaurants):
+            case .success(let result):
+                let restaurants = result.results
+                nextPageToken = result.next_page_token
                 restaurantList = restaurants
             case .failure(let error):
                 print("Error fetching nearby restaurants: \(error.localizedDescription)")
