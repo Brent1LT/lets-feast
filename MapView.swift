@@ -1,28 +1,21 @@
-//
-//  MapView.swift
-//  Feast
-//
-//  Created by Brent Bumann on 9/6/24.
-//
-
 import SwiftUI
 import MapKit
 
 struct MapView: View {
     @ObservedObject var locationManager: LocationManager
     @State private var cameraPosition: MapCameraPosition = .automatic
-    @State private var selectedTag: String?
     @State private var route: MKRoute?
     
     var width: CGFloat? // Width passed from parent
     var height: CGFloat? // Height passed from parent
     @Binding var restaurantList: [Restaurant]
     @Binding var radius: Double
+    @Binding var selectedID: String?
     
     var body: some View {
         VStack {
             if locationManager.userLocation != nil {
-                Map(position: $cameraPosition, selection: $selectedTag) {
+                Map(position: $cameraPosition, selection: $selectedID) {
 
                     Marker("You", systemImage: "location.circle.fill", coordinate: locationManager.userLocation!.coordinate)
                         .tint(.blue)
@@ -35,8 +28,8 @@ struct MapView: View {
                             latitude: restaurant.geometry.location.lat,
                             longitude: restaurant.geometry.location.lng
                         )
-                        let tag = "\(restaurantLocation.latitude) \(restaurantLocation.longitude)"
-                        let display = (route != nil && selectedTag == tag) ?
+                        let tag = "\(restaurant.id)"
+                        let display = (route != nil && selectedID == tag) ?
                             "\(restaurant.name) (\(Int(route!.expectedTravelTime / 60)) mins)" :
                             restaurant.name
                         
@@ -72,7 +65,7 @@ struct MapView: View {
                         )
                     }
                 }
-                .onChange(of: selectedTag) {
+                .onChange(of: selectedID) {
                     getDirections()
                 }
                 .mapControls {
@@ -98,26 +91,41 @@ struct MapView: View {
     
     func getDirections() {
         route = nil
-        guard let selectedTag else { return }
+        if selectedID == "you" { return }
+        guard let selectedID else { return }
         guard let userLocation = locationManager.userLocation else { return }
         
         let request = MKDirections.Request()
         let userCoord = CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude)
         
         request.source = MKMapItem(placemark: MKPlacemark(coordinate: userCoord))
-        let destination = selectedTag.split(separator: " ")
-        let destinationCoord = CLLocationCoordinate2D(latitude: (destination[0] as NSString).doubleValue, longitude: (destination[1] as NSString).doubleValue)
-        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationCoord))
-        
-        Task {
-            let directions = MKDirections(request: request)
-            let response = try? await directions.calculate()
-            route = response?.routes.first
-        }
+        if let restaurant = restaurantList.first(where: { $0.id == selectedID }) {
+            let lat = restaurant.geometry.location.lat
+            let long = restaurant.geometry.location.lng
+            
+            let destinationCoord = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            request.destination = MKMapItem(placemark: MKPlacemark(coordinate: destinationCoord))
+            
+            Task {
+                let directions = MKDirections(request: request)
+                let response = try? await directions.calculate()
+                route = response?.routes.first
+            }
+            
+        } else { return }
+    }
+}
 
+// Wrapper View for Preview
+struct MapViewWrapper: View {
+    @State private var radius = 5000.0
+    @State private var selectedID: String? = nil
+    
+    var body: some View {
+        MapView(locationManager: MockLocationManager(mockLocation: CLLocation(latitude: 37.3349, longitude: -122.00902)), width: 300, height: 400, restaurantList: .constant(mockRestaurantList), radius: $radius, selectedID: $selectedID)
     }
 }
 
 #Preview {
-    MapView(locationManager: MockLocationManager(mockLocation: CLLocation(latitude: 37.3349, longitude: -122.00902)), width: 300, height: 400, restaurantList: .constant(mockRestaurantList), radius: .constant(20000))
+    MapViewWrapper()
 }

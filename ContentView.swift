@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  Feast
-//
-//  Created by Brent Bumann on 9/3/24.
-//
-
 import SwiftUI
 
 struct ContentView: View {
@@ -15,6 +8,7 @@ struct ContentView: View {
     @State private var maxPrice: Int = 4
     @State private var keyword: String = ""
     @State private var nextPageToken: String? = nil
+    @State private var selectedID: String? = nil
     
     
     func getNearbyRestaurants() {
@@ -47,9 +41,9 @@ struct ContentView: View {
             HeaderView()
             FiltersView(radius: $radius, minPrice: $minPrice, maxPrice: $maxPrice)
             RestaurantSearch(searchText: $keyword, submitRequest: getNearbyRestaurants)
-            MapView(locationManager: locationManager, restaurantList: $restaurantList, radius: $radius)
+            MapView(locationManager: locationManager, restaurantList: $restaurantList, radius: $radius, selectedID: $selectedID)
                 .padding(.vertical, 5)
-            RestaurantList(restaurants: $restaurantList)
+            RestaurantList(restaurants: $restaurantList, selectedID: $selectedID)
         }
         .padding(.horizontal, 10)
         .onAppear {
