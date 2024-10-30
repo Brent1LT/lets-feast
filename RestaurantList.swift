@@ -52,6 +52,7 @@ struct RestaurantList: View {
                                         HStack(alignment: .bottom, spacing: 3.0) {
                                             Text(restaurant.rating != nil ? "Rating: \(restaurant.rating!, specifier: "%.1f")" : "Rating: Unknown")
                                                 .font(.subheadline)
+                                                .fontWeight(.bold)
                                                 .foregroundColor(.accentColor)
                                                 .lineLimit(1)
                                             .truncationMode(.tail)
@@ -75,6 +76,7 @@ struct RestaurantList: View {
                                         } label: {
                                             Text("Open in Apple Maps")
                                                 .font(.caption)
+                                                .fontWeight(.bold)
                                         }
                                         .padding(.top, 5)
                                         

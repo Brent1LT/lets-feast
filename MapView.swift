@@ -68,6 +68,30 @@ struct MapView: View {
                 .onChange(of: selectedID) {
                     getDirections()
                 }
+                .safeAreaInset(edge: .bottom) {
+                    HStack {
+                        Spacer()
+                        Button {
+                            getRandomRestaurant()
+                        } label: {
+                            Text("Randomize!")
+                                .font(.headline)
+                                .fontWeight(.bold)
+                                .padding(5)
+                                .background(Color.blue)
+                                .foregroundColor(.primary)
+                                .cornerRadius(10)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color(.systemBackground))
+                                        .shadow(color: Color.black.opacity(0.2), radius: 3, x: 0, y: 5)
+                                )
+                        }
+
+                        Spacer()
+                    }
+                    .padding(10)
+                }
                 .mapControls {
                     MapUserLocationButton()
                     MapCompass()
@@ -113,6 +137,11 @@ struct MapView: View {
             }
             
         } else { return }
+    }
+    
+    func getRandomRestaurant() {
+        let random = Int.random(in: 0..<restaurantList.count)
+        selectedID = restaurantList[random].id
     }
 }
 

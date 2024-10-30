@@ -29,6 +29,7 @@ struct ContentView: View {
                 let restaurants = result.results
                 nextPageToken = result.next_page_token
                 restaurantList = restaurants
+                selectedID = nil
             case .failure(let error):
                 print("Error fetching nearby restaurants: \(error.localizedDescription)")
                 
