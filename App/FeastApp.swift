@@ -10,10 +10,15 @@ import SwiftUI
 @main
 struct FeastApp: App {
     @StateObject private var locationManager = LocationManager() // Location Manager to track user’s location
+    @State private var user: User? = nil
     
     var body: some Scene {
         WindowGroup {
-            ContentView(locationManager: locationManager)
+            if user == nil {
+                AuthView(user: $user)
+            } else {
+                ContentView(locationManager: locationManager)
+            }
         }
     }
 }
