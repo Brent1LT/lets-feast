@@ -15,7 +15,7 @@ struct FeastApp: App {
     var body: some Scene {
         WindowGroup {
             if user == nil {
-                AuthView(user: $user)
+                LoginView(user: $user)
             } else {
                 ContentView(locationManager: locationManager)
             }

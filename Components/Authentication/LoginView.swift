@@ -8,7 +8,7 @@
 import SwiftUI
 //import FirebaseAuth
 
-struct AuthView: View {
+struct LoginView: View {
     @Binding var user: User?
     @State private var email = ""
     @State private var password = ""
@@ -37,19 +37,20 @@ struct AuthView: View {
                             .foregroundColor(.white)
                             .bold()
                             .padding(.bottom, 30)
-                        
-//                        TextField("Email", text: $email)
-//                            .textFieldStyle(RoundedBorderTextFieldStyle())
-//                            .keyboardType(.emailAddress)
-//                            .autocapitalization(.none)
-                        
-                        InputView(text: $email, title: "Email Address", placeholder: "name@example.com", textColor: .white)
+                                                
+                        InputView(text: $email, 
+                                  title: "Email Address",
+                                  placeholder: "name@example.com",
+                                  textColor: .white)
+                            .autocapitalization(.none)
                             
                         
-//                        SecureField("Password", text: $password)
-//                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                        
-                        InputView(text: $password, title: "Password", placeholder: "Enter your password", isSecureField: true, textColor: .white)
+                        InputView(text: $password, 
+                                  title: "Password",
+                                  placeholder: "Enter your password",
+                                  isSecureField: true,
+                                  textColor: .white)
+                            .autocapitalization(.none)
                         
                         if let errorMessage = errorMessage {
                             Text(errorMessage)
@@ -58,35 +59,41 @@ struct AuthView: View {
                                 .padding(.top, 5)
                         }
                         
-                        Button(action: {
+                        Button {
                             // login
-                        }) {
-                            Text("Log In")
-                                .padding()
-                                .fontWeight(.bold)
-                                .frame(maxWidth: .infinity)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
+                        } label: {
+                            HStack {
+                                Text("SIGN IN")
+                                    .fontWeight(.bold)
+                                    
+                                Image(systemName: "arrow.right")
+                            }
+                            .padding()
+                            .frame(maxWidth: .infinity)
+                            .background(Color.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
                         }
-                        
-                        Button(action: {
-                            // signup
-                        }) {
-                            Text("Sign Up")
-                                .padding()
-                                .fontWeight(.bold)
-                                .frame(maxWidth: .infinity)
-                                .background(Color.green)
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
-                        }
+
                     }
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 20).fill(Color.white.opacity(0.1)))
                     .padding()
                     
                     Spacer()
+                    
+                    NavigationLink {
+                        RegistrationView(user: $user)
+                            .navigationBarBackButtonHidden(true)
+                    } label: {
+                        HStack(spacing: 3) {
+                            Text("Don't have an account?")
+                            Text("Sign up")
+                                .fontWeight(.bold)
+                        }
+                        .font(.system(size: 18))
+                    }
+
                 }
             }
         }
@@ -94,6 +101,6 @@ struct AuthView: View {
 }
 
 #Preview {
-    AuthView(user: .constant(nil))
+    LoginView(user: .constant(nil))
 }
 

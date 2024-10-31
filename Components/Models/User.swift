@@ -1,10 +1,3 @@
-//
-//  User.swift
-//  Feast
-//
-//  Created by Brent Bumann on 10/30/24.
-//
-
 import Foundation
 
 struct User {
