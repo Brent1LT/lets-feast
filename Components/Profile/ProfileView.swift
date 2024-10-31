@@ -8,11 +8,13 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @Binding var user: User
+    
     var body: some View {
         List {
             Section {
                 HStack {
-                    Text("BB")
+                    Text(user.initials)
                         .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.white)
@@ -21,14 +23,14 @@ struct ProfileView: View {
                         .clipShape(Circle())
                     
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("First Last")
+                        Text(user.fullName)
                             .font(.headline)
                             .fontWeight(.bold)
                             .padding(.top, 4)
                         
-                        Text("Email Address")
+                        Text(user.email)
                             .font(.footnote)
-                            .accentColor(.gray)
+                            .foregroundColor(.gray)
                     }
                 }
                 
@@ -64,5 +66,5 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView()
+    ProfileView(user: .constant(User.MOCK_USER))
 }
