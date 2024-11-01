@@ -34,6 +34,7 @@ class AuthViewModel: ObservableObject {
             await fetchUser()
         } catch {
             print("DEBUG: Failed to login user with error \(error.localizedDescription)")
+            throw error
         }
     }
     
@@ -48,6 +49,7 @@ class AuthViewModel: ObservableObject {
             await fetchUser()
         } catch {
             print("DEBUG: Failed to create user with error \(error.localizedDescription)")
+            throw error
         }
     }
     

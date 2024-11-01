@@ -1,12 +1,4 @@
-//
-//  Auth.swift
-//  Feast
-//
-//  Created by Brent Bumann on 10/30/24.
-//
-
 import SwiftUI
-//import FirebaseAuth
 
 struct LoginView: View {
     @State private var email = ""
@@ -61,7 +53,11 @@ struct LoginView: View {
                         
                         Button {
                             Task {
-                                try await viewModel.signIn(withEmail: email, password: password)
+                                do {
+                                    try await viewModel.signIn(withEmail: email, password: password)
+                                } catch {
+                                    errorMessage = error.localizedDescription
+                                }
                             }
                         } label: {
                             HStack {
@@ -115,5 +111,6 @@ extension LoginView: AuthenticationFormProtocol {
 
 #Preview {
     LoginView()
+        .environmentObject(AuthViewModel())
 }
 

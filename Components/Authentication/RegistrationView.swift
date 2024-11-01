@@ -96,7 +96,11 @@ struct RegistrationView: View {
                         
                         Button {
                             Task {
-                                try await viewModel.createUser(withEmail: email, password: password, fullname: fullname)
+                                do {
+                                    try await viewModel.createUser(withEmail: email, password: password, fullname: fullname)
+                                } catch {
+                                    errorMessage = error.localizedDescription
+                                }
                             }
                         } label: {
                             HStack {
@@ -150,4 +154,5 @@ extension RegistrationView: AuthenticationFormProtocol {
 
 #Preview {
     RegistrationView()
+        .environmentObject(AuthViewModel())
 }
