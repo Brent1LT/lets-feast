@@ -14,27 +14,22 @@ struct HeaderView: View {
     var body: some View {
         HStack {
             Spacer()
+                .frame(width: 50)
             // Title or App Name
             Text("Let's Feast!")
                 .font(.headline)
                 .foregroundColor(.primary)
-                .padding(.leading, 10)
+                .frame(maxWidth: .infinity, alignment: .center)
             
-            Spacer()
-            
-            // Optionally, you could add a logout/login button or settings icon
-            Button(action: {
-                // Action for login/logout or settings
-            }) {
                 Image(systemName: isLoggedIn ? "gear" : "person.fill")
                     .foregroundColor(.primary)
                     .font(.system(size: 32))
                     .clipShape(Circle())
                     .overlay(Circle().stroke(Color.white, lineWidth: 2))
                     .shadow(radius: 5)
-            }
+                    .frame(width: 50, height: 50)
         }
-        .padding(5.0)
+        .padding(10)
     }
 }
 
@@ -42,3 +37,4 @@ struct HeaderView: View {
 #Preview {
     HeaderView()
 }
+

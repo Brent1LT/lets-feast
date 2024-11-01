@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct RegistrationView: View {
-    @Binding var user: User?
     @State private var email = ""
-    @State private var fullName = ""
+    @State private var fullname = ""
     @State private var password = ""
     @State private var confirmPassword = ""
     @State private var errorMessage: String?
     @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
         NavigationStack {
@@ -46,7 +46,7 @@ struct RegistrationView: View {
                                   textColor: .white)
                             .autocapitalization(.none)
                         
-                        InputView(text: $fullName,
+                        InputView(text: $fullname,
                                   title: "Full Name",
                                   placeholder: "Enter your name",
                                   textColor: .white)
@@ -73,7 +73,9 @@ struct RegistrationView: View {
                         }
                         
                         Button {
-                            // signup
+                            Task {
+                                try await viewModel.createUser(withEmail: email, password: password, fullname: fullname)
+                            }
                         } label: {
                             HStack {
                                 Text("SIGN UP")
@@ -112,5 +114,5 @@ struct RegistrationView: View {
 }
 
 #Preview {
-    RegistrationView(user: .constant(nil))
+    RegistrationView()
 }

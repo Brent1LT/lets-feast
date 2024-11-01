@@ -6,18 +6,25 @@
 //
 
 import SwiftUI
+import Firebase
 
 @main
 struct FeastApp: App {
     @StateObject private var locationManager = LocationManager() // Location Manager to track user’s location
-    @State private var user: User? = nil
+    @StateObject var viewModel = AuthViewModel()
+    
+    init() {
+        FirebaseApp.configure()
+    }
     
     var body: some Scene {
         WindowGroup {
-            if user == nil {
-                LoginView(user: $user)
+            if viewModel.userSession == nil {
+                LoginView()
+                    .environmentObject(viewModel)
             } else {
                 ContentView(locationManager: locationManager)
+                    .environmentObject(viewModel)
             }
         }
     }

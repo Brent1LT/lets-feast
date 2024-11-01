@@ -38,22 +38,28 @@ struct ContentView: View {
     }
     
     var body: some View {
-        VStack {
-            HeaderView()
-            FiltersView(radius: $radius, minPrice: $minPrice, maxPrice: $maxPrice)
-            RestaurantSearch(searchText: $keyword, submitRequest: getNearbyRestaurants)
-            MapView(locationManager: locationManager, restaurantList: $restaurantList, radius: $radius, selectedID: $selectedID)
-                .padding(.vertical, 5)
-            RestaurantList(restaurants: $restaurantList, selectedID: $selectedID)
-        }
-        .padding(.horizontal, 10)
-        .onAppear {
-            locationManager.requestLocation()
-            getNearbyRestaurants()
-        }
-        .onChange(of: locationManager.userLocation) {
-            // Trigger fetching restaurants only after location is available
-            if(restaurantList.count == 0) { getNearbyRestaurants() }
+        NavigationStack {
+            VStack {
+                NavigationLink {
+                    ProfileView()
+                } label: {
+                    HeaderView()
+                }
+                FiltersView(radius: $radius, minPrice: $minPrice, maxPrice: $maxPrice)
+                RestaurantSearch(searchText: $keyword, submitRequest: getNearbyRestaurants)
+                MapView(locationManager: locationManager, restaurantList: $restaurantList, radius: $radius, selectedID: $selectedID)
+                    .padding(.vertical, 5)
+                RestaurantList(restaurants: $restaurantList, selectedID: $selectedID)
+            }
+            .padding(.horizontal, 10)
+            .onAppear {
+                locationManager.requestLocation()
+                getNearbyRestaurants()
+            }
+            .onChange(of: locationManager.userLocation) {
+                // Trigger fetching restaurants only after location is available
+                if(restaurantList.count == 0) { getNearbyRestaurants() }
+            }
         }
     }
 }

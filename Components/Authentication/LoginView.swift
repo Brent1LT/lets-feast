@@ -9,10 +9,10 @@ import SwiftUI
 //import FirebaseAuth
 
 struct LoginView: View {
-    @Binding var user: User?
     @State private var email = ""
     @State private var password = ""
     @State private var errorMessage: String?
+    @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
         NavigationStack {
@@ -60,7 +60,9 @@ struct LoginView: View {
                         }
                         
                         Button {
-                            // login
+                            Task {
+                                try await viewModel.signIn(withEmail: email, password: password)
+                            }
                         } label: {
                             HStack {
                                 Text("SIGN IN")
@@ -83,7 +85,7 @@ struct LoginView: View {
                     Spacer()
                     
                     NavigationLink {
-                        RegistrationView(user: $user)
+                        RegistrationView()
                             .navigationBarBackButtonHidden(true)
                     } label: {
                         HStack(spacing: 3) {
@@ -101,6 +103,6 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView(user: .constant(nil))
+    LoginView()
 }
 
