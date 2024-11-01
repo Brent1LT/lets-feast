@@ -58,12 +58,34 @@ struct RegistrationView: View {
                                   textColor: .white)
                             .autocapitalization(.none)
                         
-                        InputView(text: $confirmPassword,
-                                  title: "Confirm Password",
-                                  placeholder: "Confirm your password",
-                                  isSecureField: true,
-                                  textColor: .white)
-                            .autocapitalization(.none)
+                        ZStack {
+                            HStack {
+                                InputView(text: $confirmPassword,
+                                          title: "Confirm Password",
+                                          placeholder: "Confirm your password",
+                                          isSecureField: true,
+                                          textColor: .white)
+                                .autocapitalization(.none)
+                                
+                                Spacer()
+                                
+                                if !password.isEmpty && !confirmPassword.isEmpty {
+                                    if password == confirmPassword {
+                                        Image(systemName: "checkmark.circle.fill")
+                                            .imageScale(.large)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(Color(.systemGreen))
+                                    } else {
+                                        Image(systemName: "x.circle.fill")
+                                            .imageScale(.large)
+                                            .fontWeight(.bold)
+                                            .foregroundColor(Color(.systemRed))
+                                    }
+                                }
+                            }
+                            
+                            
+                        }
                         
                         if let errorMessage = errorMessage {
                             Text(errorMessage)
@@ -88,6 +110,8 @@ struct RegistrationView: View {
                             .background(Color.green)
                             .foregroundColor(.white)
                             .cornerRadius(10)
+                            .disabled(!formIsValid)
+                            .opacity(formIsValid ? 1.0 : 0.5)
                         }
                     }
                     .padding()
@@ -110,6 +134,17 @@ struct RegistrationView: View {
                 }
             }
         }
+    }
+}
+
+extension RegistrationView: AuthenticationFormProtocol {
+    var formIsValid: Bool {
+        return !email.isEmpty &&
+        email.contains("@") &&
+        !password.isEmpty &&
+        password.count > 5 &&
+        !fullname.isEmpty &&
+        password == confirmPassword
     }
 }
 
