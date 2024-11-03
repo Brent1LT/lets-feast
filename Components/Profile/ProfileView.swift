@@ -2,6 +2,9 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var viewModel: AuthViewModel
+    @State private var showPasswordPrompt = false
+    @State private var password = ""
+    @State private var errorMessage: String?
     
     var body: some View {
         if let user = viewModel.currentUser {
@@ -50,12 +53,38 @@ struct ProfileView: View {
                     }
                     
                     Button {
-                        // Delete Account
+                        showPasswordPrompt = true
                     }label: {
                         SettingsRowView(imageName: "xmark.circle.fill", title: "Delete Account", tintColor: .red)
                     }
+                    .alert("Re-enter Password", isPresented: $showPasswordPrompt) {
+                        SecureField("Password", text: $password)
+                        
+                        Button("Cancel", role: .cancel) {
+                            password = ""
+                        }
+                        
+                        Button("Confirm") {
+                            Task {
+                                do {
+                                    try await viewModel.deleteAccount(withPassword: password)
+                                    password = ""
+                                } catch {
+                                    errorMessage = error.localizedDescription
+                                    showPasswordPrompt = true
+                                }
+                            }
+                        }
+                    } message: {
+                        if let errorMessage = errorMessage {
+                            Text(errorMessage).foregroundColor(.red)
+                        } else {
+                            Text("Please re-enter your password to confirm account deletion.")
+                        }
+                    }
                 }
             }
+
         }
     }
 }
