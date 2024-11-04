@@ -64,21 +64,48 @@ struct RestaurantList: View {
                                             }
                                         }
 
-                                        Button {
-                                            let lat = restaurant.geometry.location.lat
-                                            let long = restaurant.geometry.location.lng
+                                        VStack(alignment: .leading, spacing: 3) {
+                                            Button {
+                                                let lat = restaurant.geometry.location.lat
+                                                let long = restaurant.geometry.location.lng
+                                                
+                                                let coord = CLLocationCoordinate2D(latitude: lat, longitude: long)
+                                                let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coord))
+                                                mapItem.name = restaurant.name
+                                                print("Opening in Maps directions to \(restaurant.name)")
+                                                mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+                                            } label: {
+                                                Text("Open in Apple Maps")
+                                                    .font(.caption)
+                                                    .fontWeight(.bold)
+                                            }
+                                            .padding(.top, 5)
                                             
-                                            let coord = CLLocationCoordinate2D(latitude: lat, longitude: long)
-                                            let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coord))
-                                            mapItem.name = restaurant.name
-                                            print("Opening in Maps directions to \(restaurant.name)")
-                                            mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
-                                        } label: {
-                                            Text("Open in Apple Maps")
-                                                .font(.caption)
-                                                .fontWeight(.bold)
+                                            Button {
+                                                let lat = restaurant.geometry.location.lat
+                                                let long = restaurant.geometry.location.lng
+                                                
+                                                let googleMapsURL = URL(string: "comgooglemaps://?daddr=\(lat),\(long)&directionsmode=driving")
+                                                
+                                                if let url = googleMapsURL, UIApplication.shared.canOpenURL(url) {
+                                                    print("Opening in Google Maps directions to \(restaurant.name)")
+                                                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                                } else {
+                                                    // Fallback: Open in browser if the Google Maps app isn't installed
+                                                    print("Opening in Browser directions to \(restaurant.name)")
+                                                    let browserURL = URL(string: "https://www.google.com/maps/dir/?api=1&destination=\(lat),\(long)&travelmode=driving")
+                                                    if let url = browserURL {
+                                                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                                                    }
+                                                }
+                                            } label: {
+                                                Text("Open in Google Maps")
+                                                    .font(.caption)
+                                                    .fontWeight(.bold)
+                                            }
+                                            .padding(.top, 5)
+
                                         }
-                                        .padding(.top, 5)
                                         
                                         if restaurant.priceLevel != nil {
                                             Spacer()
