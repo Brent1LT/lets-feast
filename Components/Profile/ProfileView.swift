@@ -39,7 +39,7 @@ struct ProfileView: View {
                         
                         Spacer()
                         
-                        Text("1.0.0")
+                        Text(AppConfig.appVersion)
                             .font(.subheadline)
                             .foregroundColor(Color(.systemGray))
                     }
