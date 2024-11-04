@@ -9,6 +9,7 @@ struct ContentView: View {
     @State private var keyword: String = ""
     @State private var nextPageToken: String? = nil
     @State private var selectedID: String? = nil
+    @State private var locationAlert: Bool = false
     
     
     func getNearbyRestaurants() {
@@ -54,11 +55,21 @@ struct ContentView: View {
             .padding(.horizontal, 10)
             .onAppear {
                 locationManager.requestLocation()
+                if locationManager.isLocationPermissionDenied {
+                    locationAlert = true
+                }
                 getNearbyRestaurants()
             }
             .onChange(of: locationManager.userLocation) {
                 // Trigger fetching restaurants only after location is available
                 if(restaurantList.count == 0) { getNearbyRestaurants() }
+            }
+            .alert(isPresented: $locationAlert) {
+                Alert(
+                    title: Text("Location Access Denied"),
+                    message: Text("Please enable location services in your device settings to fetch nearby restaurants."),
+                    dismissButton: .default(Text("OK"))
+                )
             }
         }
     }
