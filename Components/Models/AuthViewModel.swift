@@ -20,9 +20,13 @@ class AuthViewModel: ObservableObject {
     @Published var currentUser: User?
     
     init() {
-        self.userSession = Auth.auth().currentUser
-        Task {
-            await fetchUser()
+        if ProcessInfo.processInfo.environment["UITestNewUser"] == "true" { //for UI testing
+            signOut()
+        } else {
+            self.userSession = Auth.auth().currentUser
+            Task {
+                await fetchUser()
+            }
         }
     }
     

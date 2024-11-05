@@ -25,6 +25,8 @@ struct InputView: View {
             
             if isSecureField {
                 SecureField("", text: $text, prompt: Text(placeholder).foregroundColor(Color(.darkGray)))
+                    .textContentType(.newPassword)
+                    .autocorrectionDisabled(true)
                     .font(.system(size: 18))
             } else {
                 TextField("", text: $text, prompt: Text(placeholder).foregroundColor(Color(.darkGray)))

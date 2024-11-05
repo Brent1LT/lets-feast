@@ -1,10 +1,3 @@
-//
-//  FiltersView.swift
-//  Feast
-//
-//  Created by Brent Bumann on 9/3/24.
-//
-
 import SwiftUI
 
 struct FiltersView: View {
