@@ -35,6 +35,7 @@ struct LoginView: View {
                                   placeholder: "name@example.com",
                                   textColor: .white)
                             .autocapitalization(.none)
+                            .accessibilityIdentifier("Email Address")
                             
                         
                         InputView(text: $password, 
@@ -43,6 +44,7 @@ struct LoginView: View {
                                   isSecureField: true,
                                   textColor: .white)
                             .autocapitalization(.none)
+                            .accessibilityIdentifier("Password")
                         
                         if let errorMessage = errorMessage {
                             Text(errorMessage)
@@ -77,6 +79,7 @@ struct LoginView: View {
                         .disabled(!formIsValid)
                         .opacity(formIsValid ? 1.0 : 0.5)
                         .padding(.top, 10)
+                        .accessibilityIdentifier("Sign in button")
                     }
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 20).fill(Color.white.opacity(0.1)))

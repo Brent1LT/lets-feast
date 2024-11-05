@@ -45,11 +45,13 @@ struct RegistrationView: View {
                                   placeholder: "name@example.com",
                                   textColor: .white)
                             .autocapitalization(.none)
+                            .accessibilityIdentifier("Email Address")
                         
                         InputView(text: $fullname,
                                   title: "Full Name",
                                   placeholder: "Enter your name",
                                   textColor: .white)
+                        .accessibilityIdentifier("Fullname")
                         
                         InputView(text: $password,
                                   title: "Password",
@@ -57,6 +59,7 @@ struct RegistrationView: View {
                                   isSecureField: true,
                                   textColor: .white)
                             .autocapitalization(.none)
+                            .accessibilityIdentifier("Password")
                         
                         ZStack {
                             HStack {
@@ -66,6 +69,7 @@ struct RegistrationView: View {
                                           isSecureField: true,
                                           textColor: .white)
                                 .autocapitalization(.none)
+                                .accessibilityIdentifier("Confirm password")
                                 
                                 Spacer()
                                 
@@ -114,10 +118,10 @@ struct RegistrationView: View {
                             .background(Color.green)
                             .foregroundColor(.white)
                             .cornerRadius(10)
-                            
                         }
                         .disabled(!formIsValid)
                         .opacity(formIsValid ? 1.0 : 0.5)
+                        .accessibilityIdentifier("Sign up button")
                     }
                     .padding()
                     .background(RoundedRectangle(cornerRadius: 20).fill(Color.white.opacity(0.1)))
