@@ -10,7 +10,7 @@ import Firebase
 
 @main
 struct FeastApp: App {
-    @StateObject private var locationManager = LocationManager() // Location Manager to track user’s location
+    @StateObject private var locationManager = LocationManager()
     @StateObject var viewModel = AuthViewModel()
     
     init() {

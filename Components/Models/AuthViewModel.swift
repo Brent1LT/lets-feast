@@ -1,10 +1,3 @@
-//
-//  AuthViewModel.swift
-//  Feast
-//
-//  Created by Brent Bumann on 10/31/24.
-//
-
 import Foundation
 import FirebaseAuth
 import FirebaseFirestore
@@ -13,15 +6,32 @@ protocol AuthenticationFormProtocol {
     var formIsValid: Bool { get }
 }
 
+protocol UserProtocol {
+    var uid: String { get }
+    var email: String? { get }
+}
+
+// Extend `FirebaseAuth.User` to conform to `UserProtocol`
+extension FirebaseAuth.User: UserProtocol {}
+
+class MockUser: UserProtocol {
+    var uid: String = "mockUserID"
+    var email: String? = "mock@user.com"
+}
+
+
 
 @MainActor
 class AuthViewModel: ObservableObject {
-    @Published var userSession: FirebaseAuth.User?
+    @Published var userSession: UserProtocol?
     @Published var currentUser: User?
     
     init() {
         if ProcessInfo.processInfo.environment["UITestNewUser"] == "true" { //for UI testing
             signOut()
+        } else if ProcessInfo.processInfo.environment["UITestMockUser"] == "true" {
+            self.currentUser = User.MOCK_USER
+            self.userSession = MockUser()
         } else {
             self.userSession = Auth.auth().currentUser
             Task {

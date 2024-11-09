@@ -1,10 +1,3 @@
-//
-//  Utils.swift
-//  Feast
-//
-//  Created by Brent Bumann on 10/16/24.
-//
-
 import Foundation
 
 // Define the overall API response structure

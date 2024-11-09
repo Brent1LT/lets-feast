@@ -1,10 +1,3 @@
-//
-//  LocationMananger.swift
-//  Feast
-//
-//  Created by Brent Bumann on 9/9/24.
-//
-
 import Foundation
 import CoreLocation
 

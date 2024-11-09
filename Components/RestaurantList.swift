@@ -20,7 +20,7 @@ struct RestaurantList: View {
                     ScrollView {
                         VStack(alignment: .leading) {
                             ForEach(restaurants) { restaurant in
-                                HStack(alignment: .top) {
+                                HStack(alignment: .center) {
                                     AsyncImage(url: URL(string: restaurant.thumbnailURL ?? ""), content: { image in
                                         image
                                             .resizable()
@@ -127,7 +127,11 @@ struct RestaurantList: View {
                                     RoundedRectangle(cornerRadius: 10)
                                         .fill(Color(.systemBackground))
                                 )
+                                .frame(maxWidth: .infinity)
                                 .id(restaurant.id) // Set a unique ID for each restaurant
+                                .onTapGesture {
+                                    selectedID = restaurant.id
+                                }
                             }
                         }
                     }

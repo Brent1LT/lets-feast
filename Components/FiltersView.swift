@@ -28,6 +28,7 @@ struct FiltersView: View {
                         .foregroundColor(.blue)
                         .font(.system(size: 16))
                 }
+                .accessibilityIdentifier("Show Filters")
             }
 
             if (showFilters) {
@@ -38,6 +39,7 @@ struct FiltersView: View {
                     Slider(value: $selectedDistance, in: 1...50, step: 1)
                         .accentColor(.blue)
                         .padding(.vertical, 10)
+                        .accessibilityIdentifier("Distance slider")
                     
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Min Price: ")
@@ -52,6 +54,7 @@ struct FiltersView: View {
                                     Image(systemName: "dollarsign.circle")
                                         .foregroundColor(minPrice >= index ? .green : .gray)
                                 }
+                                .accessibilityIdentifier("Min-price-button-\(index)")
                             }
                         }
                         .padding(.bottom, 10)

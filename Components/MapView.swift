@@ -79,7 +79,7 @@ struct MapView: View {
                                 .fontWeight(.bold)
                                 .padding(5)
                                 .background(Color.blue)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.white)
                                 .cornerRadius(10)
                                 .background(
                                     RoundedRectangle(cornerRadius: 10)

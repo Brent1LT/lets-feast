@@ -1,10 +1,3 @@
-//
-//  RestaurantsListPreview.swift
-//  Feast
-//
-//  Created by Brent Bumann on 9/11/24.
-//
-
 import Foundation
 
 var geometry1 = Geometry(location: Location(lng: -122.0300, lat: 37.3500))

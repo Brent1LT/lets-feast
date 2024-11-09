@@ -18,13 +18,14 @@ struct RestaurantSearch: View {
                     TextField("Find something to eat...", text: $searchText)
                         .padding(.horizontal)
                         .onSubmit {
-                            submitRequest() // Call the submit function when "Return" is pressed
+                            submitRequest()
                             searchText = ""
                         }
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .accessibilityIdentifier("Search query")
                     
                     Button(action: {
-                        submitRequest() // Call the submit function when the button is tapped
+                        submitRequest()
                         searchText = ""
                     }) {
                         Text("Search")
@@ -34,6 +35,7 @@ struct RestaurantSearch: View {
                             .foregroundColor(.white)
                             .cornerRadius(10)
                     }
+                    .accessibilityIdentifier("Search for restaurants")
                 }
                 Spacer()
             }

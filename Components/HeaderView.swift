@@ -18,6 +18,7 @@ struct HeaderView: View {
                     .overlay(Circle().stroke(Color.white, lineWidth: 2))
                     .shadow(radius: 5)
                     .frame(width: 50, height: 50)
+                    .accessibilityIdentifier("Profile Settings")
         }
         .padding(10)
     }
