@@ -55,7 +55,8 @@ struct RestaurantList: View {
                                                 .fontWeight(.bold)
                                                 .foregroundColor(.accentColor)
                                                 .lineLimit(1)
-                                            .truncationMode(.tail)
+                                                .truncationMode(.tail)
+                                                .accessibilityIdentifier("\(restaurant.name) rating")
                                             
                                             if restaurant.rating != nil {
                                                 Image(systemName: "star.fill")
@@ -79,6 +80,7 @@ struct RestaurantList: View {
                                                     .font(.caption)
                                                     .fontWeight(.bold)
                                             }
+                                            .accessibilityIdentifier("\(restaurant.name) open in Apple Maps")
                                             .padding(.top, 5)
                                             
                                             Button {
@@ -132,6 +134,7 @@ struct RestaurantList: View {
                                 .onTapGesture {
                                     selectedID = restaurant.id
                                 }
+
                             }
                         }
                     }
@@ -140,6 +143,7 @@ struct RestaurantList: View {
                             proxy.scrollTo(selectedID, anchor: .center)
                         }
                     }
+                    .accessibilityIdentifier("Restaurant List")
                 }
             }
             

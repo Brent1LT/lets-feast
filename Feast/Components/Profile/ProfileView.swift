@@ -51,12 +51,14 @@ struct ProfileView: View {
                     } label: {
                         SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign Out", tintColor: .red)
                     }
+                    .accessibilityIdentifier("Sign out")
                     
                     Button {
                         showPasswordPrompt = true
                     }label: {
                         SettingsRowView(imageName: "xmark.circle.fill", title: "Delete Account", tintColor: .red)
                     }
+                    .accessibilityIdentifier("Delete account")
                     .alert("Re-enter Password", isPresented: $showPasswordPrompt) {
                         SecureField("Password", text: $password)
                         

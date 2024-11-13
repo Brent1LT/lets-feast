@@ -87,7 +87,10 @@ struct MapView: View {
                                         .shadow(color: Color.black.opacity(0.2), radius: 3, x: 0, y: 5)
                                 )
                         }
-
+                        .disabled(restaurantList.count == 0)
+                        .opacity(restaurantList.count > 0 ? 1.0 : 0.5)
+                        .accessibilityIdentifier("Randomizer")
+                        
                         Spacer()
                     }
                     .padding(10)
@@ -145,13 +148,14 @@ struct MapView: View {
     }
 }
 
+
 // Wrapper View for Preview
 struct MapViewWrapper: View {
     @State private var radius = 5000.0
     @State private var selectedID: String? = nil
     
     var body: some View {
-        MapView(locationManager: MockLocationManager(mockLocation: CLLocation(latitude: 37.3349, longitude: -122.00902)), width: 300, height: 400, restaurantList: .constant(mockRestaurantList), radius: $radius, selectedID: $selectedID)
+        MapView(locationManager: MockLocationManager(mockLocation: CLLocation(latitude: 37.3349, longitude: -122.00902)), width: 300, height: 400, restaurantList: .constant([]), radius: $radius, selectedID: $selectedID)
     }
 }
 

@@ -14,9 +14,12 @@ struct ContentView: View {
     
     func getNearbyRestaurants() {
         if ProcessInfo.processInfo.environment["UITestMockUser"] == "true" {
+            if ProcessInfo.processInfo.environment["NoRestaurants"] == "true" {
+                return
+            }
             restaurantList = mockRestaurantList
             return
-        }
+        } 
         print("Fetching Restaurants...")
 //        print("\(locationManager.userLocation)")
         print("Searching with keyword: \(keyword)")
