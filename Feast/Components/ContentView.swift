@@ -20,13 +20,10 @@ struct ContentView: View {
             restaurantList = mockRestaurantList
             return
         } 
-        print("Fetching Restaurants...")
-//        print("\(locationManager.userLocation)")
-        print("Searching with keyword: \(keyword)")
         guard let lat = locationManager.userLocation?.coordinate.latitude,
               let long = locationManager.userLocation?.coordinate.longitude
         else {
-            print("User location is not available. Cannot fetch nearby restaurants.")
+            AnalyticsManager.shared.logEvent(name: "Search_FAILED", params: ["error": "lat/long not available to search"])
             return
         }
         
@@ -34,14 +31,30 @@ struct ContentView: View {
         fetchNearbyRestaurants(keyword: keyword, location: location, radius: radius, minPrice: minPrice, maxPrice: maxPrice, openNow: true) { result in
             switch result {
             case .success(let result):
+                AnalyticsManager.shared.logSearch(params: [
+                    "location": locationManager.generalizedLocation,
+                    "keyword": "\(keyword)",
+                    "radius": "\(radius) km",
+                    "minPrice": "\(minPrice)",
+                    "maxPrice": "\(maxPrice)"
+                ])
                 let restaurants = result.results
                 nextPageToken = result.next_page_token
                 restaurantList = restaurants
                 selectedID = nil
             case .failure(let error):
+                AnalyticsManager.shared.logEvent(name: "Search_FAILED", params: [
+                    "location": locationManager.generalizedLocation,
+                    "keyword": "\(keyword)",
+                    "radius": "\(radius) km",
+                    "minPrice": "\(minPrice)",
+                    "maxPrice": "\(maxPrice)",
+                    "error": "\(error.localizedDescription)"
+                ])
                 print("Error fetching nearby restaurants: \(error.localizedDescription)")
                 
             }
+            keyword = ""
         }
     }
     
@@ -63,6 +76,7 @@ struct ContentView: View {
             .onAppear {
                 locationManager.requestLocation()
                 if locationManager.isLocationPermissionDenied {
+                    AnalyticsManager.shared.logEvent(name: "Location_Denied")
                     locationAlert = true
                 }
                 getNearbyRestaurants()

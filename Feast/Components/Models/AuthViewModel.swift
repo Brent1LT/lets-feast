@@ -27,7 +27,7 @@ class AuthViewModel: ObservableObject {
     @Published var currentUser: User?
     
     init() {
-        if ProcessInfo.processInfo.environment["UITestNewUser"] == "true" { //for UI testing
+        if ProcessInfo.processInfo.environment["UITestNewUser"] == "true" { // for UI testing
             signOut()
         } else if ProcessInfo.processInfo.environment["UITestMockUser"] == "true" {
             self.currentUser = User.MOCK_USER
@@ -41,27 +41,29 @@ class AuthViewModel: ObservableObject {
     }
     
     func signIn(withEmail email: String, password: String) async throws {
-        print("Sign in...")
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            AnalyticsManager.shared.logLogIn(params: ["method": "email"])
             self.userSession = result.user
             await fetchUser()
         } catch {
+            AnalyticsManager.shared.logEvent(name: "Login_FAILED", params: ["method": "email", "error": "\(error.localizedDescription)"])
             print("DEBUG: Failed to login user with error \(error.localizedDescription)")
             throw error
         }
     }
     
     func createUser(withEmail email: String, password: String, fullname: String) async throws {
-        print("creating user...")
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.userSession = result.user
             let user = User(id: result.user.uid, email: email, fullName: fullname)
             let encodedUser = try Firestore.Encoder().encode(user)
             try await Firestore.firestore().collection("users").document(user.id).setData(encodedUser)
+            AnalyticsManager.shared.logSignUp(params: ["method": "email"])
             await fetchUser()
         } catch {
+            AnalyticsManager.shared.logEvent(name: "Signup_FAILED", params: ["method": "email", "error": "\(error.localizedDescription)"])
             print("DEBUG: Failed to create user with error \(error.localizedDescription)")
             throw error
         }
@@ -70,9 +72,11 @@ class AuthViewModel: ObservableObject {
     func signOut() {
         do {
             try Auth.auth().signOut()
+            AnalyticsManager.shared.logEvent(name: "Signout")
             self.userSession = nil
             self.currentUser = nil
         } catch {
+            AnalyticsManager.shared.logEvent(name: "Signout_FAILED", params: ["error": "\(error.localizedDescription)"])
             print("DEBUG: Failed to sign out with error \(error.localizedDescription)")
         }
     }
@@ -88,8 +92,11 @@ class AuthViewModel: ObservableObject {
             // If reauthentication succeeds, proceed with deletion
             try await Firestore.firestore().collection("users").document(user.uid).delete()
             try await Auth.auth().currentUser?.delete()
+            AnalyticsManager.shared.logEvent(name: "DeleteUser")
+            AnalyticsManager.shared.removeUserId()
             self.signOut()
         } catch {
+            AnalyticsManager.shared.logEvent(name: "DeleteUser_FAILED", params: ["error": "\(error.localizedDescription)"])
             print("DEBUG: Failed to delete account with error \(error.localizedDescription)")
             throw error
         }
@@ -116,5 +123,7 @@ class AuthViewModel: ObservableObject {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
         self.currentUser = try? snapshot.data(as: User.self)
+        AnalyticsManager.shared.setUserId(userId: uid)
+        AnalyticsManager.shared.logEvent(name: "FetchedUser")
     }
 }

@@ -86,7 +86,7 @@ struct ProfileView: View {
                     }
                 }
             }
-
+            .analyticsScreen(name: "ProfileView")
         }
     }
 }

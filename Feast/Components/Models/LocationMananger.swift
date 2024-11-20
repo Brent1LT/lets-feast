@@ -4,9 +4,11 @@ import CoreLocation
 // Custom LocationManager class for handling location services
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private var locationManager = CLLocationManager()
+    private let geocoder = CLGeocoder()
     
     @Published var userLocation: CLLocation?
     @Published var isLocationPermissionDenied: Bool = false
+    @Published var generalizedLocation: String = "Unknown Location"
     
     override init() {
         super.init()
@@ -23,9 +25,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     private func checkInitialAuthorizationStatus() {
         let status = locationManager.authorizationStatus
-        print("Location Manager Permission: \(status)")
         isLocationPermissionDenied = (status == .denied || status == .restricted)
-        print("Permission: \(isLocationPermissionDenied)")
     }
     
     // CLLocationManagerDelegate method to update the user's location
@@ -33,9 +33,27 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         if let location = locations.first {
             DispatchQueue.main.async {
                 self.userLocation = location // Update the user location
+                self.updateGeneralizedLocation(for: location)
             }
         } else {
             print("No locations available")
+        }
+    }
+    
+    private func updateGeneralizedLocation(for location: CLLocation) {
+        geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
+            guard let self = self else { return }
+            if let placemark = placemarks?.first {
+                let city = placemark.locality ?? "Unknown City"
+                let country = placemark.country ?? "Unknown Country"
+                DispatchQueue.main.async {
+                    self.generalizedLocation = "\(city), \(country)"
+                }
+            } else {
+                DispatchQueue.main.async {
+                    self.generalizedLocation = "Unknown Location"
+                }
+            }
         }
     }
     
@@ -49,6 +67,6 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 
     // Handle location update errors
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Error getting location: \(error.localizedDescription)")
+        AnalyticsManager.shared.logEvent(name: "Location_FAILED", params: ["error": "\(error.localizedDescription)"])
     }
 }

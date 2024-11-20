@@ -14,6 +14,9 @@
 		76840CA72CD9905B00CD9BA6 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 76840CA62CD9905B00CD9BA6 /* FirebaseFirestore */; };
 		76840CAB2CDA9B7400CD9BA6 /* RegistrationUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76840CAA2CDA9B7300CD9BA6 /* RegistrationUITests.swift */; };
 		76840CBF2CDD7CCC00CD9BA6 /* MainPageUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76840CBD2CDD7CCC00CD9BA6 /* MainPageUITests.swift */; };
+		76840CC12CEC003200CD9BA6 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 76840CC02CEC003200CD9BA6 /* FirebaseAnalytics */; };
+		76840CC52CEC067C00CD9BA6 /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76840CC42CEC067C00CD9BA6 /* AnalyticsManager.swift */; };
+		76840CC72CEC096600CD9BA6 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 76840CC62CEC096600CD9BA6 /* FirebaseAnalytics */; };
 		76AAE4D82C87AFAB00CCA81C /* FeastApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AAE4D72C87AFAB00CCA81C /* FeastApp.swift */; };
 		76AAE4DA2C87AFAB00CCA81C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AAE4D92C87AFAB00CCA81C /* ContentView.swift */; };
 		76AAE4DC2C87AFAC00CCA81C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 76AAE4DB2C87AFAC00CCA81C /* Assets.xcassets */; };
@@ -67,6 +70,7 @@
 		76840CAA2CDA9B7300CD9BA6 /* RegistrationUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationUITests.swift; sourceTree = "<group>"; };
 		76840CB62CDAD1D200CD9BA6 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		76840CBD2CDD7CCC00CD9BA6 /* MainPageUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPageUITests.swift; sourceTree = "<group>"; };
+		76840CC42CEC067C00CD9BA6 /* AnalyticsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		76AAE4D42C87AFAB00CCA81C /* Feast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Feast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		76AAE4D72C87AFAB00CCA81C /* FeastApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeastApp.swift; sourceTree = "<group>"; };
 		76AAE4D92C87AFAB00CCA81C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -108,6 +112,7 @@
 			files = (
 				76840CA52CD9905000CD9BA6 /* FirebaseAuth in Frameworks */,
 				76840CA72CD9905B00CD9BA6 /* FirebaseFirestore in Frameworks */,
+				76840CC12CEC003200CD9BA6 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,6 +122,7 @@
 			files = (
 				76BDF9062CD44077006185B7 /* FirebaseAuth in Frameworks */,
 				76BDF9082CD44077006185B7 /* FirebaseFirestore in Frameworks */,
+				76840CC72CEC096600CD9BA6 /* FirebaseAnalytics in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +242,7 @@
 				76C8C3122C8FFAF600D0B188 /* LocationMananger.swift */,
 				76C8C3162C92871600D0B188 /* RestaurantsModel.swift */,
 				76BDF8F12CD2D6A5006185B7 /* User.swift */,
+				76840CC42CEC067C00CD9BA6 /* AnalyticsManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -296,6 +303,7 @@
 			packageProductDependencies = (
 				76840CA42CD9905000CD9BA6 /* FirebaseAuth */,
 				76840CA62CD9905B00CD9BA6 /* FirebaseFirestore */,
+				76840CC02CEC003200CD9BA6 /* FirebaseAnalytics */,
 			);
 			productName = FeastUITests;
 			productReference = 76353F142CD986170001F49C /* FeastUITests.xctest */;
@@ -317,6 +325,7 @@
 			packageProductDependencies = (
 				76BDF9052CD44077006185B7 /* FirebaseAuth */,
 				76BDF9072CD44077006185B7 /* FirebaseFirestore */,
+				76840CC62CEC096600CD9BA6 /* FirebaseAnalytics */,
 			);
 			productName = Feast;
 			productReference = 76AAE4D42C87AFAB00CCA81C /* Feast.app */;
@@ -427,6 +436,7 @@
 				76C8C3112C8BBFE900D0B188 /* MapView.swift in Sources */,
 				76C8C3172C92871600D0B188 /* RestaurantsModel.swift in Sources */,
 				76BDF8FC2CD423B2006185B7 /* RegistrationView.swift in Sources */,
+				76840CC52CEC067C00CD9BA6 /* AnalyticsManager.swift in Sources */,
 				76BDF8F92CD30251006185B7 /* InputView.swift in Sources */,
 				76BDF8F42CD2D81C006185B7 /* LoginView.swift in Sources */,
 				76AAE4DA2C87AFAB00CCA81C /* ContentView.swift in Sources */,
@@ -783,6 +793,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 76BDF9042CD44077006185B7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		76840CC02CEC003200CD9BA6 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76BDF9042CD44077006185B7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		76840CC62CEC096600CD9BA6 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 76BDF9042CD44077006185B7 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
 		};
 		76BDF9052CD44077006185B7 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;

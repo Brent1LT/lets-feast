@@ -1,10 +1,3 @@
-//
-//  RestaurantSearch.swift
-//  Feast
-//
-//  Created by Brent Bumann on 9/3/24.
-//
-
 import SwiftUI
 
 struct RestaurantSearch: View {
@@ -19,14 +12,12 @@ struct RestaurantSearch: View {
                         .padding(.horizontal)
                         .onSubmit {
                             submitRequest()
-                            searchText = ""
                         }
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .accessibilityIdentifier("Search query")
                     
                     Button(action: {
                         submitRequest()
-                        searchText = ""
                     }) {
                         Text("Search")
                             .padding(5.0)
