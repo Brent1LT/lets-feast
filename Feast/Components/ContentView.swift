@@ -34,7 +34,7 @@ struct ContentView: View {
                 AnalyticsManager.shared.logSearch(params: [
                     "location": locationManager.generalizedLocation,
                     "keyword": "\(keyword)",
-                    "radius": "\(radius) km",
+                    "radius": "\(radius) m",
                     "minPrice": "\(minPrice)",
                     "maxPrice": "\(maxPrice)"
                 ])
@@ -46,7 +46,7 @@ struct ContentView: View {
                 AnalyticsManager.shared.logEvent(name: "Search_FAILED", params: [
                     "location": locationManager.generalizedLocation,
                     "keyword": "\(keyword)",
-                    "radius": "\(radius) km",
+                    "radius": "\(radius) m",
                     "minPrice": "\(minPrice)",
                     "maxPrice": "\(maxPrice)",
                     "error": "\(error.localizedDescription)"
