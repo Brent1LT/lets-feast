@@ -73,9 +73,9 @@ struct RestaurantList: View {
                                                 let coord = CLLocationCoordinate2D(latitude: lat, longitude: long)
                                                 let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: coord))
                                                 mapItem.name = restaurant.name
-                                                AnalyticsManager.shared.logEvent(name: "Open_in_Apple_Maps", params: ["restaurant": restaurant.name])
-                                                mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
                                                 
+                                                mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving])
+                                                AnalyticsManager.shared.logEvent(name: "Open_in_Apple_Maps", params: ["restaurant": restaurant.name])
                                             } label: {
                                                 Text("Open in Apple Maps")
                                                     .font(.caption)
@@ -91,11 +91,12 @@ struct RestaurantList: View {
                                                 let googleMapsURL = URL(string: "comgooglemaps://?daddr=\(lat),\(long)&directionsmode=driving")
                                                 
                                                 if let url = googleMapsURL, UIApplication.shared.canOpenURL(url) {
+                                                    AnalyticsManager.shared.logEvent(name: "Open_in_Google_Maps", params: ["restaurant": restaurant.name, "platform": "mobile"])
                                                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                                                    AnalyticsManager.shared.logEvent(name: "Open_in_Google_Maps", params: ["restaurant": restaurant.name])
+                                                    
                                                 } else {
                                                     // Fallback: Open in browser if the Google Maps app isn't installed
-                                                    print("Opening in Browser directions to \(restaurant.name)")
+                                                    AnalyticsManager.shared.logEvent(name: "Open_in_Google_Maps", params: ["restaurant": restaurant.name, "platform": "browser"])
                                                     let browserURL = URL(string: "https://www.google.com/maps/dir/?api=1&destination=\(lat),\(long)&travelmode=driving")
                                                     if let url = browserURL {
                                                         UIApplication.shared.open(url, options: [:], completionHandler: nil)

@@ -10,6 +10,7 @@ struct ContentView: View {
     @State private var nextPageToken: String? = nil
     @State private var selectedID: String? = nil
     @State private var locationAlert: Bool = false
+    @State private var lastRequestTime: Date?
     
     
     func getNearbyRestaurants() {
@@ -19,7 +20,12 @@ struct ContentView: View {
             }
             restaurantList = mockRestaurantList
             return
-        } 
+        }
+        let now = Date()
+        if let lastTime = lastRequestTime, now.timeIntervalSince(lastTime) < 2.0 {
+            return
+        }
+        lastRequestTime = now
         guard let lat = locationManager.userLocation?.coordinate.latitude,
               let long = locationManager.userLocation?.coordinate.longitude
         else {
@@ -28,31 +34,24 @@ struct ContentView: View {
         }
         
         let location: Location = Location(lng: long, lat: lat)
+        let params = [
+            "location": locationManager.generalizedLocation,
+            "keyword": keyword,
+            "radius": "\(radius) m",
+            "minPrice": "\(minPrice)",
+            "maxPrice": "\(maxPrice)"
+        ]
         fetchNearbyRestaurants(keyword: keyword, location: location, radius: radius, minPrice: minPrice, maxPrice: maxPrice, openNow: true) { result in
             switch result {
             case .success(let result):
-                AnalyticsManager.shared.logSearch(params: [
-                    "location": locationManager.generalizedLocation,
-                    "keyword": "\(keyword)",
-                    "radius": "\(radius) m",
-                    "minPrice": "\(minPrice)",
-                    "maxPrice": "\(maxPrice)"
-                ])
+                AnalyticsManager.shared.logSearch(params: params)
                 let restaurants = result.results
                 nextPageToken = result.next_page_token
                 restaurantList = restaurants
                 selectedID = nil
             case .failure(let error):
-                AnalyticsManager.shared.logEvent(name: "Search_FAILED", params: [
-                    "location": locationManager.generalizedLocation,
-                    "keyword": "\(keyword)",
-                    "radius": "\(radius) m",
-                    "minPrice": "\(minPrice)",
-                    "maxPrice": "\(maxPrice)",
-                    "error": "\(error.localizedDescription)"
-                ])
+                AnalyticsManager.shared.logEvent(name: "Search_FAILED", params: params)
                 print("Error fetching nearby restaurants: \(error.localizedDescription)")
-                
             }
             keyword = ""
         }
