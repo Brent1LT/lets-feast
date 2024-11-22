@@ -34,7 +34,7 @@ struct ContentView: View {
         }
         
         let location: Location = Location(lng: long, lat: lat)
-        let params = [
+        var params = [
             "location": locationManager.generalizedLocation,
             "keyword": keyword,
             "radius": "\(radius) m",
@@ -50,6 +50,7 @@ struct ContentView: View {
                 restaurantList = restaurants
                 selectedID = nil
             case .failure(let error):
+                params["error"] = error.localizedDescription
                 AnalyticsManager.shared.logEvent(name: "Search_FAILED", params: params)
                 print("Error fetching nearby restaurants: \(error.localizedDescription)")
             }
