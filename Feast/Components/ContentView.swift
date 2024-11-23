@@ -11,6 +11,7 @@ struct ContentView: View {
     @State private var selectedID: String? = nil
     @State private var locationAlert: Bool = false
     @State private var lastRequestTime: Date?
+    @State private var shouldRetry: Bool = false
     
     
     func getNearbyRestaurants() {
@@ -22,7 +23,7 @@ struct ContentView: View {
             return
         }
         let now = Date()
-        if let lastTime = lastRequestTime, now.timeIntervalSince(lastTime) < 2.0 {
+        if !shouldRetry, let lastTime = lastRequestTime, now.timeIntervalSince(lastTime) < 2.0 {
             return
         }
         lastRequestTime = now
@@ -30,8 +31,10 @@ struct ContentView: View {
               let long = locationManager.userLocation?.coordinate.longitude
         else {
             AnalyticsManager.shared.logEvent(name: "Search_FAILED", params: ["error": "lat/long not available to search"])
+            shouldRetry = true
             return
         }
+        shouldRetry = false
         
         let location: Location = Location(lng: long, lat: lat)
         var params = [
@@ -83,7 +86,7 @@ struct ContentView: View {
             }
             .onChange(of: locationManager.userLocation) {
                 // Trigger fetching restaurants only after location is available
-                if(restaurantList.count == 0) { getNearbyRestaurants() }
+                if(restaurantList.count == 0 || shouldRetry) { getNearbyRestaurants() }
             }
             .alert(isPresented: $locationAlert) {
                 Alert(

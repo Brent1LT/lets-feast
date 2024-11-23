@@ -12,6 +12,7 @@ import Firebase
 struct FeastApp: App {
     @StateObject private var locationManager = LocationManager()
     @StateObject var viewModel = AuthViewModel()
+    @State private var showSplash = true
     
     init() {
         FirebaseApp.configure()
@@ -19,12 +20,24 @@ struct FeastApp: App {
     
     var body: some Scene {
         WindowGroup {
-            if viewModel.userSession == nil {
-                LoginView()
-                    .environmentObject(viewModel)
-            } else {
-                ContentView(locationManager: locationManager)
-                    .environmentObject(viewModel)
+            ZStack {
+                if showSplash {
+                    SplashView()
+                } else if viewModel.userSession == nil {
+                    LoginView()
+                        .environmentObject(viewModel)
+                } else {
+                    ContentView(locationManager: locationManager)
+                        .environmentObject(viewModel)
+                }
+                
+            }
+            .onAppear{
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    withAnimation {
+                        showSplash = false
+                    }
+                }
             }
         }
     }

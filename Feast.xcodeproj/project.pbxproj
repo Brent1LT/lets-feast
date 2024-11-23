@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7624B8D12CF1524600CB4C9C /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7624B8D02CF1524600CB4C9C /* SplashView.swift */; };
 		76353F002CD94DE80001F49C /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76353EFF2CD94DE80001F49C /* AppConfig.swift */; };
 		76353F172CD986170001F49C /* LoginUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76353F162CD986170001F49C /* LoginUITests.swift */; };
 		76353F192CD986170001F49C /* FeastUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76353F182CD986170001F49C /* FeastUITestsLaunchTests.swift */; };
@@ -62,6 +63,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7624B8D02CF1524600CB4C9C /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		76353EFF2CD94DE80001F49C /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		76353F072CD981B00001F49C /* FilterUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FilterUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		76353F142CD986170001F49C /* FeastUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeastUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -217,6 +219,7 @@
 				76BDF8FA2CD4233A006185B7 /* Authentication */,
 				76BDF8F82CD30251006185B7 /* InputView.swift */,
 				76AAE4D92C87AFAB00CCA81C /* ContentView.swift */,
+				7624B8D02CF1524600CB4C9C /* SplashView.swift */,
 				76C8C30D2C87BEB400D0B188 /* FiltersView.swift */,
 				76C8C3092C87BA4400D0B188 /* HeaderView.swift */,
 				76C8C3102C8BBFE900D0B188 /* MapView.swift */,
@@ -445,6 +448,7 @@
 				76BDF8EE2CC311E0006185B7 /* APIKeys.swift in Sources */,
 				76C8C3152C92868200D0B188 /* RestaurantList.swift in Sources */,
 				76BDF8EC2CC06FF0006185B7 /* Utils.swift in Sources */,
+				7624B8D12CF1524600CB4C9C /* SplashView.swift in Sources */,
 				76C8C30A2C87BA4400D0B188 /* HeaderView.swift in Sources */,
 				76AAE4D82C87AFAB00CCA81C /* FeastApp.swift in Sources */,
 				76BDF9012CD42A04006185B7 /* SettingsRowView.swift in Sources */,
