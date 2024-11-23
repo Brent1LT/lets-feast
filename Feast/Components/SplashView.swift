@@ -1,23 +1,22 @@
-//
-//  SplashView.swift
-//  Feast
-//
-//  Created by Brent Bumann on 11/22/24.
-//
-
 import SwiftUI
 
 struct SplashView: View {
     var body: some View {
         ZStack {
             Color.black
-                .edgesIgnoringSafeArea(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
+                .edgesIgnoringSafeArea(.all)
             VStack {
                 Text("Let's Feast!")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-            }
+                    .foregroundColor(.white)
                 
+                Image("SplashIcon")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 150, height: 150)
+                    .cornerRadius(20)
+            }
         }
     }
 }

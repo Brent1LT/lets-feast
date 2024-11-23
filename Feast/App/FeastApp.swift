@@ -30,14 +30,17 @@ struct FeastApp: App {
                     ContentView(locationManager: locationManager)
                         .environmentObject(viewModel)
                 }
-                
             }
             .onAppear{
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    withAnimation {
-                        showSplash = false
-                    }
-                }
+                showSplashScreen()
+            }
+        }
+    }
+    
+    private func showSplashScreen() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation {
+                showSplash = false
             }
         }
     }
