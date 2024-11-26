@@ -5,6 +5,7 @@ struct PlacesResponse: Decodable {
     let results: [Restaurant]
     let status: String
     let next_page_token: String?
+    let error_message: String?
 }
 
 func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double, minPrice: Int, maxPrice: Int, openNow: Bool, completion: @escaping (Result<PlacesResponse, Error>) -> Void) {
@@ -45,7 +46,7 @@ func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double,
             
             // Check if response status is "OK"
             if responseJSON.status != "OK" {
-                let apiError = NSError(domain: "APIError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid API response status: \(responseJSON.status)"])
+                let apiError = NSError(domain: "APIError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid API response status: \(responseJSON.status): \(responseJSON.error_message ?? "no error message")"])
                 completion(.failure(apiError))
                 return
             }
