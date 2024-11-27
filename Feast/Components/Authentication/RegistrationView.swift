@@ -1,10 +1,3 @@
-//
-//  RegistrationView.swift
-//  Feast
-//
-//  Created by Brent Bumann on 10/31/24.
-//
-
 import SwiftUI
 
 struct RegistrationView: View {
@@ -103,7 +96,9 @@ struct RegistrationView: View {
                                 do {
                                     try await viewModel.createUser(withEmail: email, password: password, fullname: fullname)
                                 } catch {
-                                    errorMessage = error.localizedDescription
+                                    let message = error.localizedDescription
+                                    errorMessage = message
+                                    AnalyticsManager.shared.logEvent(name: "SignupCredentials_FAILED", params: ["error": firebaseParameter(string: message)])
                                 }
                             }
                         } label: {

@@ -58,7 +58,9 @@ struct LoginView: View {
                                 do {
                                     try await viewModel.signIn(withEmail: email, password: password)
                                 } catch {
-                                    errorMessage = error.localizedDescription
+                                    let message = error.localizedDescription
+                                    errorMessage = message
+                                    AnalyticsManager.shared.logEvent(name: "LoginCredentials_FAILED", params: ["error": firebaseParameter(string: message)])
                                 }
                             }
                         } label: {
