@@ -1,4 +1,5 @@
 import Foundation
+import CoreLocation
 import UIKit
 
 // Define the overall API response structure
@@ -37,7 +38,8 @@ func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double,
     
     URLSession.shared.dataTask(with: request) { data, response, error in
         if let error = error {
-            print("Network error: \(error.localizedDescription)")
+            let errorMessage = error.localizedDescription
+            AnalyticsManager.shared.logEvent(name: "NetworkConnection_FAILED", params: ["error": firebaseParameter(string: errorMessage)])
             completion(.failure(error))
             return
         }
@@ -46,6 +48,7 @@ func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double,
         
         guard let data = data else {
             print("Error no data received.")
+            AnalyticsManager.shared.logEvent(name: "NoDataReceivedFromSearch", params: ["keyword": keyword, "radius": "\(radius)", "minPrice": "\(minPrice)", "maxPrice": "\(maxPrice)"])
             completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data received."])))
             return
         }
@@ -63,6 +66,7 @@ func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double,
             // If everything is fine, return the results
             completion(.success(responseJSON))
         } catch {
+            AnalyticsManager.shared.logEvent(name: "RestaurantDecode_FAILED", params: ["error": firebaseParameter(string: error.localizedDescription)])
             print("JSON decoding error: \(error)")
             completion(.failure(error))
         }
@@ -84,3 +88,6 @@ func fetchImageData(from url: String) async -> UIImage? {
     }
 }
 
+func firebaseParameter(string: String) -> String {
+    return string.count > MAX_ERROR_LENGTH ? string.prefix(MAX_ERROR_LENGTH) + "..." : string
+}

@@ -40,7 +40,7 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
     
-    private func updateGeneralizedLocation(for location: CLLocation) {
+    func updateGeneralizedLocation(for location: CLLocation) {
         geocoder.reverseGeocodeLocation(location) { [weak self] placemarks, error in
             guard let self = self else { return }
             if let placemark = placemarks?.first {

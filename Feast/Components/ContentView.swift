@@ -56,9 +56,7 @@ struct ContentView: View {
                 selectedID = nil
             case .failure(let error):
                 let errorMessage = error.localizedDescription
-                params["error"] = errorMessage.count > MAX_ERROR_LENGTH
-                ? String(errorMessage.prefix(MAX_ERROR_LENGTH)) + "..."
-                : errorMessage
+                params["error"] = firebaseParameter(string: errorMessage)
                 AnalyticsManager.shared.logEvent(name: "Search_FAILED", params: params)
             }
             keyword = ""
