@@ -148,7 +148,7 @@ struct MapView: View {
     }
 }
 
-
+#if DEBUG
 // Wrapper View for Preview
 struct MapViewWrapper: View {
     @State private var radius = 5000.0
@@ -162,3 +162,4 @@ struct MapViewWrapper: View {
 #Preview {
     MapViewWrapper()
 }
+#endif

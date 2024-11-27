@@ -1,10 +1,3 @@
-//
-//  RestaurantsModel.swift
-//  Feast
-//
-//  Created by Brent Bumann on 9/11/24.
-//
-
 import Foundation
 
 struct Restaurant: Decodable, Equatable, Identifiable {

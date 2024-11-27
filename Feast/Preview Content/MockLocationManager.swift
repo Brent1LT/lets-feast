@@ -1,10 +1,3 @@
-//
-//  mockLocationManager.swift
-//  Feast
-//
-//  Created by Brent Bumann on 10/23/24.
-//
-
 import Foundation
 import CoreLocation
 

@@ -19,7 +19,9 @@ struct ContentView: View {
             if ProcessInfo.processInfo.environment["NoRestaurants"] == "true" {
                 return
             }
+            #if DEBUG
             restaurantList = mockRestaurantList
+            #endif
             return
         }
         let now = Date()
@@ -53,9 +55,11 @@ struct ContentView: View {
                 restaurantList = restaurants
                 selectedID = nil
             case .failure(let error):
-                params["error"] = error.localizedDescription
+                let errorMessage = error.localizedDescription
+                params["error"] = errorMessage.count > MAX_ERROR_LENGTH
+                ? String(errorMessage.prefix(MAX_ERROR_LENGTH)) + "..."
+                : errorMessage
                 AnalyticsManager.shared.logEvent(name: "Search_FAILED", params: params)
-                print("Error fetching nearby restaurants: \(error.localizedDescription)")
             }
             keyword = ""
         }
@@ -99,6 +103,8 @@ struct ContentView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     ContentView(locationManager: MockLocationManager())
 }
+#endif

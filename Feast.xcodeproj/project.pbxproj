@@ -34,6 +34,7 @@
 		76BDF9032CD43EF9006185B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 76BDF9022CD43EF9006185B7 /* GoogleService-Info.plist */; };
 		76BDF9062CD44077006185B7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 76BDF9052CD44077006185B7 /* FirebaseAuth */; };
 		76BDF9082CD44077006185B7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 76BDF9072CD44077006185B7 /* FirebaseFirestore */; };
+		76C011132CF7DA040078850E /* RestaurantItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C011122CF7DA040078850E /* RestaurantItem.swift */; };
 		76C8C30A2C87BA4400D0B188 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8C3092C87BA4400D0B188 /* HeaderView.swift */; };
 		76C8C30C2C87BD2500D0B188 /* RestaurantSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8C30B2C87BD2500D0B188 /* RestaurantSearch.swift */; };
 		76C8C30E2C87BEB400D0B188 /* FiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76C8C30D2C87BEB400D0B188 /* FiltersView.swift */; };
@@ -88,6 +89,7 @@
 		76BDF8FE2CD42876006185B7 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		76BDF9002CD42A04006185B7 /* SettingsRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsRowView.swift; sourceTree = "<group>"; };
 		76BDF9022CD43EF9006185B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		76C011122CF7DA040078850E /* RestaurantItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantItem.swift; sourceTree = "<group>"; };
 		76C8C3092C87BA4400D0B188 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		76C8C30B2C87BD2500D0B188 /* RestaurantSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantSearch.swift; sourceTree = "<group>"; };
 		76C8C30D2C87BEB400D0B188 /* FiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersView.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 				76C8C3092C87BA4400D0B188 /* HeaderView.swift */,
 				76C8C3102C8BBFE900D0B188 /* MapView.swift */,
 				76C8C3142C92868200D0B188 /* RestaurantList.swift */,
+				76C011122CF7DA040078850E /* RestaurantItem.swift */,
 				76C8C30B2C87BD2500D0B188 /* RestaurantSearch.swift */,
 				76BDF8F72CD2FE04006185B7 /* Models */,
 			);
@@ -433,6 +436,7 @@
 			files = (
 				76F9C2452CD4418500DA4BAD /* AuthViewModel.swift in Sources */,
 				76C8C3132C8FFAF600D0B188 /* LocationMananger.swift in Sources */,
+				76C011132CF7DA040078850E /* RestaurantItem.swift in Sources */,
 				76C8C3192C929C9100D0B188 /* RestaurantsListPreview.swift in Sources */,
 				76353F002CD94DE80001F49C /* AppConfig.swift in Sources */,
 				76C8C30C2C87BD2500D0B188 /* RestaurantSearch.swift in Sources */,
@@ -677,7 +681,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Feast/Preview Content\"";
 				DEVELOPMENT_TEAM = M9VY72GHQA;
 				ENABLE_PREVIEWS = YES;
@@ -709,7 +713,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Feast/Preview Content\"";
 				DEVELOPMENT_TEAM = M9VY72GHQA;
 				ENABLE_PREVIEWS = YES;

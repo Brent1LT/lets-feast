@@ -1,4 +1,5 @@
 import Foundation
+import UIKit
 
 // Define the overall API response structure
 struct PlacesResponse: Decodable {
@@ -7,6 +8,8 @@ struct PlacesResponse: Decodable {
     let next_page_token: String?
     let error_message: String?
 }
+
+let MAX_ERROR_LENGTH = 95
 
 func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double, minPrice: Int, maxPrice: Int, openNow: Bool, completion: @escaping (Result<PlacesResponse, Error>) -> Void) {
     let baseUrl = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
@@ -26,7 +29,13 @@ func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double,
         print("Invalid URL")
         return
     }
-    URLSession.shared.dataTask(with: url) { data, response, error in
+    
+    // Create a URLRequest to add custom headers
+    var request = URLRequest(url: url)
+    request.httpMethod = "GET"
+    request.addValue(Bundle.main.bundleIdentifier ?? "", forHTTPHeaderField: "X-Ios-Bundle-Identifier")
+    
+    URLSession.shared.dataTask(with: request) { data, response, error in
         if let error = error {
             print("Network error: \(error.localizedDescription)")
             completion(.failure(error))
@@ -59,3 +68,19 @@ func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double,
         }
     }.resume()
 }
+
+func fetchImageData(from url: String) async -> UIImage? {
+    guard let url = URL(string: url) else { return nil }
+    
+    var request = URLRequest(url: url)
+    request.setValue(Bundle.main.bundleIdentifier ?? "", forHTTPHeaderField: "X-Ios-Bundle-Identifier")
+
+    do {
+        let (data, _) = try await URLSession.shared.data(for: request)
+        return UIImage(data: data)
+    } catch {
+        print("Failed to fetch image: \(error.localizedDescription)")
+        return nil
+    }
+}
+
