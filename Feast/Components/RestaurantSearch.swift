@@ -2,6 +2,7 @@ import SwiftUI
 
 struct RestaurantSearch: View {
     @Binding var searchText: String
+    @FocusState private var isTextFieldFocused: Bool
     var submitRequest: () -> Void
     
     var body: some View {
@@ -10,14 +11,17 @@ struct RestaurantSearch: View {
                 HStack {
                     TextField("Find something to eat...", text: $searchText)
                         .padding(.horizontal)
+                        .focused($isTextFieldFocused)
                         .onSubmit {
                             submitRequest()
+                            isTextFieldFocused = false
                         }
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .accessibilityIdentifier("Search query")
                     
                     Button(action: {
                         submitRequest()
+                        isTextFieldFocused = false
                     }) {
                         Text("Search")
                             .padding(5.0)
