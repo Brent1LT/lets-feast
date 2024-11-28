@@ -8,7 +8,7 @@ struct FiltersView: View {
     @Binding var minPrice: Int
     @Binding var maxPrice: Int
     
-    let priceRange = 0...4
+    let priceRange = 1...4
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -50,6 +50,7 @@ struct FiltersView: View {
                                     if index <= maxPrice {
                                         minPrice = index
                                     }
+                                    UIApplication.shared.endEditing()
                                 }) {
                                     Image(systemName: "dollarsign.circle")
                                         .foregroundColor(minPrice >= index ? .green : .gray)
@@ -67,6 +68,7 @@ struct FiltersView: View {
                                     if index >= minPrice {
                                         maxPrice = index // Update the maximum price
                                     }
+                                    UIApplication.shared.endEditing()
                                 }) {
                                     Image(systemName: "dollarsign.circle")
                                         .foregroundColor(maxPrice >= index ? .green : .gray)
@@ -89,7 +91,7 @@ struct FiltersView: View {
 
 // Wrapper View for Preview
 struct FiltersViewWrapper: View {
-    @State private var minPrice = 0
+    @State private var minPrice = 1
     @State private var maxPrice = 4
     @State private var radius: Double = 10000
     

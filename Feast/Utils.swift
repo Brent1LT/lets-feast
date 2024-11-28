@@ -10,6 +10,13 @@ struct PlacesResponse: Decodable {
     let error_message: String?
 }
 
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
+
 let MAX_ERROR_LENGTH = 95
 
 func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double, minPrice: Int, maxPrice: Int, openNow: Bool, completion: @escaping (Result<PlacesResponse, Error>) -> Void) {

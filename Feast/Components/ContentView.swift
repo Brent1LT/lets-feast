@@ -4,7 +4,7 @@ struct ContentView: View {
     @ObservedObject var locationManager: LocationManager
     @State private var restaurantList: [Restaurant] = []
     @State private var radius: Double = 5000
-    @State private var minPrice: Int = 0
+    @State private var minPrice: Int = 1
     @State private var maxPrice: Int = 4
     @State private var keyword: String = ""
     @State private var nextPageToken: String? = nil
