@@ -12,7 +12,44 @@ struct ContentView: View {
     @State private var locationAlert: Bool = false
     @State private var lastRequestTime: Date?
     @State private var shouldRetry: Bool = false
+    @State private var searchError: String? = nil
     
+    var body: some View {
+        NavigationStack {
+            VStack {
+                NavigationLink {
+                    ProfileView()
+                } label: {
+                    HeaderView()
+                }
+                FiltersView(radius: $radius, minPrice: $minPrice, maxPrice: $maxPrice)
+                RestaurantSearch(searchText: $keyword, submitRequest: getNearbyRestaurants)
+                MapView(locationManager: locationManager, restaurantList: $restaurantList, radius: $radius, selectedID: $selectedID)
+                    .padding(.vertical, 5)
+                RestaurantList(restaurants: $restaurantList, selectedID: $selectedID, errorMessage: $searchError)
+            }
+            .padding(.horizontal, 10)
+            .onAppear {
+                locationManager.requestLocation()
+                if locationManager.isLocationPermissionDenied {
+                    AnalyticsManager.shared.logEvent(name: "Location_Denied")
+                    locationAlert = true
+                }
+                getNearbyRestaurants()
+            }
+            .onChange(of: locationManager.userLocation) {
+                // Trigger fetching restaurants only after location is available
+                if(restaurantList.count == 0 || shouldRetry) { getNearbyRestaurants() }
+            }
+            .alert(isPresented: $locationAlert) {
+                Alert(
+                    title: Text("Location Access Denied"),
+                    message: Text("Please enable location services in your device settings to fetch nearby restaurants."),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
+        }
+    }
     
     func getNearbyRestaurants() {
         if ProcessInfo.processInfo.environment["UITestMockUser"] == "true" {
@@ -53,50 +90,19 @@ struct ContentView: View {
                 let restaurants = result.results
                 nextPageToken = result.next_page_token
                 restaurantList = restaurants
+                if result.results.isEmpty {
+                    searchError = "Nothing found within search parameters"
+                } else {
+                    searchError = nil
+                }
                 selectedID = nil
             case .failure(let error):
                 let errorMessage = error.localizedDescription
                 params["error"] = firebaseParameter(string: errorMessage)
                 AnalyticsManager.shared.logEvent(name: "Search_FAILED", params: params)
+                searchError = errorMessage
             }
             keyword = ""
-        }
-    }
-    
-    var body: some View {
-        NavigationStack {
-            VStack {
-                NavigationLink {
-                    ProfileView()
-                } label: {
-                    HeaderView()
-                }
-                FiltersView(radius: $radius, minPrice: $minPrice, maxPrice: $maxPrice)
-                RestaurantSearch(searchText: $keyword, submitRequest: getNearbyRestaurants)
-                MapView(locationManager: locationManager, restaurantList: $restaurantList, radius: $radius, selectedID: $selectedID)
-                    .padding(.vertical, 5)
-                RestaurantList(restaurants: $restaurantList, selectedID: $selectedID)
-            }
-            .padding(.horizontal, 10)
-            .onAppear {
-                locationManager.requestLocation()
-                if locationManager.isLocationPermissionDenied {
-                    AnalyticsManager.shared.logEvent(name: "Location_Denied")
-                    locationAlert = true
-                }
-                getNearbyRestaurants()
-            }
-            .onChange(of: locationManager.userLocation) {
-                // Trigger fetching restaurants only after location is available
-                if(restaurantList.count == 0 || shouldRetry) { getNearbyRestaurants() }
-            }
-            .alert(isPresented: $locationAlert) {
-                Alert(
-                    title: Text("Location Access Denied"),
-                    message: Text("Please enable location services in your device settings to fetch nearby restaurants."),
-                    dismissButton: .default(Text("OK"))
-                )
-            }
         }
     }
 }

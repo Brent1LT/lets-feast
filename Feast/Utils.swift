@@ -56,15 +56,15 @@ func fetchNearbyRestaurants(keyword: String, location: Location, radius: Double,
         do {
             let responseJSON = try JSONDecoder().decode(PlacesResponse.self, from: data)
             
-            // Check if response status is "OK"
-            if responseJSON.status != "OK" {
-                let apiError = NSError(domain: "APIError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid API response status: \(responseJSON.status): \(responseJSON.error_message ?? "no error message")"])
+            switch responseJSON.status {
+            case "OK", "ZERO_RESULTS":
+                // If everything is fine, return the results
+                completion(.success(responseJSON))
+            default:
+                let errorMessage = responseJSON.error_message ?? "no error message"
+                let apiError = NSError(domain: "APIError", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid API response status: \(responseJSON.status): \(errorMessage)"])
                 completion(.failure(apiError))
-                return
             }
-            
-            // If everything is fine, return the results
-            completion(.success(responseJSON))
         } catch {
             AnalyticsManager.shared.logEvent(name: "RestaurantDecode_FAILED", params: ["error": firebaseParameter(string: error.localizedDescription)])
             print("JSON decoding error: \(error)")

@@ -4,10 +4,11 @@ import MapKit
 struct RestaurantList: View {
     @Binding var restaurants: [Restaurant]
     @Binding var selectedID: String?
+    @Binding var errorMessage: String?
     
     var body: some View {
         VStack {
-            if restaurants.isEmpty {
+            if restaurants.isEmpty && errorMessage == nil {
                 VStack {
                     ProgressView()
                     Text("Searching for nearby restaurants...")
@@ -15,6 +16,10 @@ struct RestaurantList: View {
                         .padding(.top, 10)
                 }
                 .padding()
+            } else if errorMessage != nil {
+                Text(errorMessage!)
+                    .fontWeight(.bold)
+                    .foregroundColor(.red)
             } else {
                 ScrollViewReader { proxy in
                     ScrollView {
@@ -52,6 +57,6 @@ struct RestaurantList: View {
 var restaurants: [Restaurant] = mockRestaurantList
 var empty: [Restaurant] = []
 #Preview {
-    RestaurantList(restaurants: .constant(restaurants), selectedID: .constant(nil))
+    RestaurantList(restaurants: .constant(restaurants), selectedID: .constant(nil), errorMessage: .constant(nil))
 }
 #endif
