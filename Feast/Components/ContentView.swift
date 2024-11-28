@@ -49,6 +49,7 @@ struct ContentView: View {
                 )
             }
         }
+        .ignoresSafeArea(.container, edges: .top)
     }
     
     func getNearbyRestaurants() {

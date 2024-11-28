@@ -50,14 +50,14 @@ struct MapView: View {
                         )
                     }
                 }
-                .onChange(of: locationManager.userLocation) {
-                    if locationManager.userLocation != nil {
-                        // Update camera position when the user location changes
-                        cameraPosition = .camera(
-                            MapCamera(centerCoordinate: locationManager.userLocation!.coordinate, distance: radius * 5)
-                        )
-                    }
-                }
+//                .onChange(of: locationManager.userLocation) {
+//                    if locationManager.userLocation != nil {
+//                        // Update camera position when the user location changes
+//                        cameraPosition = .camera(
+//                            MapCamera(centerCoordinate: locationManager.userLocation!.coordinate, distance: radius * 5)
+//                        )
+//                    }
+//                }
                 .onChange(of: restaurantList) {
                     if locationManager.userLocation != nil {
                         cameraPosition = .camera(
