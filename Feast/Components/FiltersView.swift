@@ -78,14 +78,13 @@ struct FiltersView: View {
                     }
                 }
                 .padding()
-                .transition(.opacity)
+                .transition(.scale)
             }
         }
         .onChange(of: selectedDistance) {
             radius = selectedDistance * 1609
         }
         .padding(10)
-        
     }
 }
 

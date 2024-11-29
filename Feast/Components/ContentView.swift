@@ -23,6 +23,7 @@ struct ContentView: View {
                     HeaderView()
                 }
                 FiltersView(radius: $radius, minPrice: $minPrice, maxPrice: $maxPrice)
+                    .padding(.leading, 5)
                 RestaurantSearch(searchText: $keyword, submitRequest: getNearbyRestaurants)
                 MapView(locationManager: locationManager, restaurantList: $restaurantList, radius: $radius, selectedID: $selectedID)
                     .padding(.vertical, 5)
@@ -49,7 +50,6 @@ struct ContentView: View {
                 )
             }
         }
-        .ignoresSafeArea(.container, edges: .top)
     }
     
     func getNearbyRestaurants() {

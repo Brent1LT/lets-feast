@@ -6,22 +6,26 @@ struct RestaurantSearch: View {
     var submitRequest: () -> Void
     
     var body: some View {
-        NavigationView {
-            VStack {
+        NavigationStack {
+            VStack(alignment: .leading) {
+                Text("Restaurants")
+                    .fontWeight(.bold)
+                    .padding(.leading, 15.0)
+                
                 HStack {
                     TextField("Find something to eat...", text: $searchText)
                         .padding(.horizontal)
                         .focused($isTextFieldFocused)
                         .onSubmit {
                             submitRequest()
-                            isTextFieldFocused = false
+//                            isTextFieldFocused = false
                         }
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .accessibilityIdentifier("Search query")
                     
                     Button(action: {
                         submitRequest()
-                        isTextFieldFocused = false
+//                        isTextFieldFocused = false
                     }) {
                         Text("Search")
                             .padding(5.0)
@@ -35,14 +39,6 @@ struct RestaurantSearch: View {
                 Spacer()
             }
             .padding(.trailing)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Text("Restaurants")
-                        .font(.headline)
-                        .foregroundColor(.primary)
-                }
-            }
-            .navigationBarTitleDisplayMode(.inline)
         }
         .frame(height: 100)
         .cornerRadius(10)

@@ -20,7 +20,7 @@ struct HeaderView: View {
                     .frame(width: 50, height: 50)
                     .accessibilityIdentifier("Profile Settings")
         }
-        .padding(10)
+        .padding(.vertical, 10)
     }
 }
 
