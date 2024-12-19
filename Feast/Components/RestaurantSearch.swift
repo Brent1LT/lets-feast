@@ -5,6 +5,15 @@ struct RestaurantSearch: View {
     @FocusState private var isTextFieldFocused: Bool
     var submitRequest: () -> Void
     
+    @State private var placeholderIndex = 0
+    @State private var animatedOpacity: Double = 1.0
+    private let placeholders = [
+        "Find something to eat...",
+        "Try: Food by the beach...",
+        "Try: Italian restaurants nearby...",
+        "Try: Vegan options downtown..."
+    ]
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
@@ -13,19 +22,23 @@ struct RestaurantSearch: View {
                     .padding(.leading, 15.0)
                 
                 HStack {
-                    TextField("Find something to eat...", text: $searchText)
+                    TextField(currentPlaceholder, text: $searchText)
                         .padding(.horizontal)
                         .focused($isTextFieldFocused)
                         .onSubmit {
                             submitRequest()
-//                            isTextFieldFocused = false
+                            isTextFieldFocused = false
                         }
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .accessibilityIdentifier("Search query")
+                        .onAppear {
+                            startPlaceholderRotation()
+                        }
+                        .opacity(animatedOpacity)
                     
                     Button(action: {
                         submitRequest()
-//                        isTextFieldFocused = false
+                        isTextFieldFocused = false
                     }) {
                         Text("Search")
                             .padding(5.0)
@@ -47,6 +60,25 @@ struct RestaurantSearch: View {
                 .fill(Color(.systemBackground))
                 .shadow(color: Color.black.opacity(0.2), radius: 3, x: 0, y: 5)
         )
+        
+    }
+    
+    private var currentPlaceholder: String {
+        placeholders[placeholderIndex % placeholders.count]
+    }
+    
+    private func startPlaceholderRotation() {
+        Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
+            withAnimation(.easeInOut(duration: 0.5)) {
+                animatedOpacity = 0.0
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                placeholderIndex += 1
+                withAnimation(.easeInOut(duration: 0.5)) {
+                    animatedOpacity = 1.0
+                }
+            }
+        }
     }
 }
 

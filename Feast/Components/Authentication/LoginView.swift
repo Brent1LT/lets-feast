@@ -56,6 +56,7 @@ struct LoginView: View {
                         Button {
                             Task {
                                 do {
+                                    errorMessage = nil
                                     try await viewModel.signIn(withEmail: email, password: password)
                                 } catch {
                                     let message = error.localizedDescription

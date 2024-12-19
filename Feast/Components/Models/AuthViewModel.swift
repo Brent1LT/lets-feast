@@ -116,14 +116,35 @@ class AuthViewModel: ObservableObject {
             throw error
         }
     }
-
-
     
     func fetchUser() async {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        guard let snapshot = try? await Firestore.firestore().collection("users").document(uid).getDocument() else { return }
-        self.currentUser = try? snapshot.data(as: User.self)
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("DEBUG: No current user ID found.")
+            return
+        }
+        
+        do {
+            let snapshot = try await Firestore.firestore().collection("users").document(uid).getDocument()
+            if snapshot.data() != nil {
+                self.currentUser = try? snapshot.data(as: User.self)
+                if let currentUser = self.currentUser {
+                    print("DEBUG: Successfully decoded user: \(currentUser.fullName)")
+                } else {
+                    AnalyticsManager.shared.logEvent(name: "FetchedUser_FAILED", params: ["error": "Failed to decode user data"])
+                    return
+                }
+            } else {
+                AnalyticsManager.shared.logEvent(name: "FetchedUser_FAILED", params: ["error": "No data found for user document."])
+                return
+            }
+        } catch {
+            AnalyticsManager.shared.logEvent(name: "FetchedUser_FAILED", params: ["error": "Error fetching user document: \(error.localizedDescription)"])
+            return
+        }
+        
         AnalyticsManager.shared.setUserId(userId: uid)
         AnalyticsManager.shared.logEvent(name: "FetchedUser")
     }
+
+
 }

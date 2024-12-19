@@ -87,6 +87,15 @@ struct ProfileView: View {
                 }
             }
             .analyticsScreen(name: "ProfileView")
+        } else {
+            Text("Issue gathering user information...")
+                .padding(10)
+            Button {
+                viewModel.signOut()
+            } label: {
+                SettingsRowView(imageName: "arrow.counterclockwise.circle", title: "Restart App", tintColor: .red)
+            }
+            .accessibilityIdentifier("Restart App")
         }
     }
 }

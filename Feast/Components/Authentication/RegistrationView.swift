@@ -94,6 +94,7 @@ struct RegistrationView: View {
                         Button {
                             Task {
                                 do {
+                                    errorMessage = nil
                                     try await viewModel.createUser(withEmail: email, password: password, fullname: fullname)
                                 } catch {
                                     let message = error.localizedDescription

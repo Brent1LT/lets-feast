@@ -50,6 +50,8 @@ struct ContentView: View {
                 )
             }
         }
+//        .navigationBarHidden(true)
+//        .navigationBarBackButtonHidden(true)
     }
     
     func getNearbyRestaurants() {
